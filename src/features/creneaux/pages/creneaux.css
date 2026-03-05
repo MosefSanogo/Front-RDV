@@ -1,0 +1,46 @@
+.creneaux-page {
+    padding: 1rem 4rem 2rem 4rem;
+}
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 1rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-default);
+    padding: 1rem;
+
+}
+.pagination span {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+}
+
+.pagination select {
+    padding: 0.5rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-default);
+    background: var(--bg-card);
+    color: var(--text-primary);
+    font-size: var(--text-md); 
+    cursor: pointer; transition: var(--transition);
+    outline: none;
+}
+
+.pagination select:hover {
+    border-color: var(--primary);
+}
+.pagination-info{
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+.creneaux-page .time-slots-card{
+    border-radius: 0;
+    box-shadow: none;
+}
+.creneaux-page .title-section{
+    display: flex;
+    justify-content: flex-start;
+}

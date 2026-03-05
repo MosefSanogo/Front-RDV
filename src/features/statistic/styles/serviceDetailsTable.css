@@ -1,0 +1,143 @@
+.service-table-container {
+    overflow-x: auto;
+}
+
+.service-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.service-table th {
+    padding: 1rem;
+    text-align: left;
+    font-size: var(--text-xs);
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid var(--border-default);
+}
+
+.service-table td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-default);
+    vertical-align: middle;
+}
+
+.service-row {
+    cursor: pointer;
+    transition: var(--transition);
+    width: 100%;
+}
+
+.service-row:hover {
+    background: rgba(var(--primary-rgb, 37, 99, 235), 0.03);
+}
+
+.service-row.expanded {
+    background: rgba(var(--primary-rgb, 37, 99, 235), 0.05);
+}
+
+.expand-cell {
+    width: 40px;
+    text-align: center;
+    color: var(--text-secondary);
+}
+
+.service-name {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.stats-cell {
+    font-weight: 500;
+    color: var(--text-primary);
+    display: flex;
+    flex-direction: column;
+}
+
+.absences-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.25rem 0.5rem;
+    background: rgba(var(--error-rgb, 239, 68, 68), 0.1);
+    color: var(--error);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-sm);
+    font-weight: 600;
+}
+
+.fill-rate {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.fill-rate.small {
+    gap: 0.5rem;
+}
+
+.fill-rate-bar {
+    height: 6px;
+    width: 80px;
+    border-radius: 3px;
+    transition: width 0.3s ease;
+}
+
+.fill-rate.small .fill-rate-bar {
+    width: 50px;
+}
+
+.fill-rate span {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    min-width: 45px;
+}
+
+/* Sous-services */
+.subservices-container {
+    padding: 1.5rem;
+    background: var(--bg-main);
+    border-radius: var(--radius-md);
+    margin: 0.5rem 0;
+}
+
+.subservices-container h4 {
+    font-size: var(--text-md);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 1rem 0;
+}
+
+.subservices-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.subservices-table th {
+    padding: 0.75rem;
+    text-align: left;
+    font-size: var(--text-xs);
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid var(--border-default);
+}
+
+.subservices-table td {
+    padding: 0.75rem;
+    border-bottom: 1px solid var(--border-default);
+}
+
+@media (max-width: 1024px) {
+    .service-table {
+        min-width: 800px;
+    }
+
+    .subservices-table {
+        min-width: 600px;
+    }
+}

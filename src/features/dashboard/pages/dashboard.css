@@ -1,0 +1,46 @@
+.dashboard {
+    height: 100%;
+    padding: 2rem;
+    padding-bottom: 3rem;
+    max-width: 1400px;
+}
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.dashboard-appointments-today {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1.5rem;
+    align-items: center;
+}
+.appointments-placeholder{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+.dashboard .chart-container{
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border-default);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+.dashboard-slots {
+  margin-top: 1.5rem;
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border-default);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}

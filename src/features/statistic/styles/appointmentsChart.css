@@ -1,0 +1,60 @@
+ .appointments-chart {
+     width: 100%;
+     height: 250px;
+     position: relative;
+ }
+
+ .appointments-chart .chart-container {
+     display: flex;
+     justify-content: space-around;
+     align-items: flex-end;
+     height: 100%;
+     gap: 0.5rem;
+ }
+
+ .chart-column {
+     flex: 1;
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     height: 100%;
+     gap: 0.5rem;
+ }
+
+ .bars-container {
+     width: 100%;
+     height: 200px;
+     display: flex;
+     justify-content: center;
+     gap: 4px;
+     align-items: flex-end;
+ }
+
+ .bar {
+     width: 30px;
+     border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+     transition: height 0.3s ease;
+ }
+
+ .bar.appointments {
+     background: var(--primary);
+ }
+
+ .bar.capacity {
+     background: var(--text-disabled);
+     opacity: 0.3;
+ }
+
+ .hour-label {
+     font-size: var(--text-xs);
+     color: var(--text-secondary);
+     transform: rotate(-45deg);
+     transform-origin: left top;
+     white-space: nowrap;
+ }
+
+ @media (max-width: 768px) {
+     .bar {
+         width: 20px;
+     }
+ }

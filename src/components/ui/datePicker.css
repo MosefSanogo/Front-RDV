@@ -1,0 +1,8 @@
+.css-1hgcujo-MuiPickersInputBase-root-MuiPickersOutlinedInput-root,
+.css-1fb7els-MuiPickersSectionList-root-MuiPickersInputBase-sectionsContainer-MuiPickersOutlinedInput-sectionsContainer
+ {
+    color: var(--text-primary);
+}
+.css-10o2lyd-MuiStack-root>.MuiPickersTextField-root{
+    border: 1px solid var(--border-default);
+}

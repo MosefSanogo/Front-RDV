@@ -1,0 +1,26 @@
+.service-filter {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 0.5rem 1rem;
+          background: var(--bg-main);
+          border: 1px solid var(--border-default);
+          border-radius: var(--radius-md);
+          min-width: 200px;
+        }
+
+        .service-select {
+          flex: 1;
+          border: none;
+          background: transparent;
+          color: var(--text-primary);
+          font-size: var(--text-sm);
+          outline: none;
+          cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+          .service-filter {
+            width: 100%;
+          }
+        }

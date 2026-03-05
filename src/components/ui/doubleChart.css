@@ -1,0 +1,8 @@
+.css-1a101ht-MuiChartsWrapper-root  .css-6qmeuq-MuiChartsLegend-root .MuiChartsLegend-series {
+    color: var(--text-primary);
+}
+
+.css-zs7opb-MuiChartsWrapper-root .css-1308xjd-MuiChartsLegend-root .MuiChartsLegend-series{
+    color: var(--text-primary);
+    font-size: var(--text-md);
+}

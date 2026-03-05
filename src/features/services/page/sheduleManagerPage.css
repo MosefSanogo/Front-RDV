@@ -1,0 +1,29 @@
+.shedule-manager-page{
+    padding: 1rem 4rem 2rem 4rem;
+    background: var(--bg-default);
+    min-height: 100vh;
+}
+.shedule-manager-page-header{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: var(--text-primary);
+}
+.shedule-manager-page-header .lucide-arrow-left{
+    color: var(--text-primary);
+}
+.shedule-manager-page .footer-actions{
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    padding: 1rem;
+}
+.progress-center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60vh;
+}
+.schedule-table{
+    box-shadow: var(--shadow-sm);
+}

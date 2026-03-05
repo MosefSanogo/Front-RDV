@@ -1,0 +1,30 @@
+.MuiChartsAxis-tickContainer {
+    stroke: var(--text-primary);
+    stroke-width: 1px;
+}
+.css-ra8wgq-MuiChartsAxis-root-MuiChartsYAxis-root .MuiChartsAxis-line {
+    stroke: var(--text-primary);
+    shape-rendering: crispEdges;
+    stroke-width: 1;
+}
+.css-6n0pp6-MuiChartsWrapper-root .css-1f57y8b{
+    font-weight: 400;
+    font-size: 0.875rem;
+    line-height: 1.43;
+    letter-spacing: 0.01071em;
+    stroke: none;
+    fill: var(--text-primary);
+    shape-rendering: crispEdges;
+    text-anchor: middle;
+    dominant-baseline: middle;
+}
+.css-6n0pp6-MuiChartsWrapper-root .css-ra8wgq-MuiChartsAxis-root-MuiChartsYAxis-root .MuiChartsAxis-line {
+    stroke: var(--text-primary);
+    shape-rendering: crispEdges;
+    stroke-width: 1;
+}
+.css-6n0pp6-MuiChartsWrapper-root .css-1yscjcf-MuiChartsAxis-root-MuiChartsXAxis-root .MuiChartsAxis-line {
+    stroke: var(--text-primary);
+    shape-rendering: crispEdges;
+    stroke-width: 1;
+}
