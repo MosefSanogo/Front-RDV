@@ -27,3 +27,7 @@
 .schedule-table{
     box-shadow: var(--shadow-sm);
 }
+.footer-actions{
+    width: 200px;
+    margin-left: 2rem;
+}

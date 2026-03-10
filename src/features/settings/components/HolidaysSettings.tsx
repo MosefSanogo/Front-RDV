@@ -1,86 +1,88 @@
-import React, { useState } from 'react';
-import { CalendarX, Plus, Trash2, Edit, AlertCircle } from 'lucide-react';
-import '../styles/holidaysSettings.css';
-interface Holiday {
+import React, { useState } from "react";
+import { CalendarX, Plus, Trash2, AlertCircle, Save } from "lucide-react";
+import "../styles/holidaysSettings.css";
+export interface Holiday {
   id: string;
   date: string;
   label: string;
-  type: 'full' | 'half';
+  type: "full" | "half";
+}
+interface HolidaysSettingsProps {
+  onSave: (data: Holiday) => void;
+  loading?: boolean;
+  data: Holiday[];
+  onAction?: (id: string) => void;
 }
 
-const HolidaysSettings: React.FC = () => {
-  const [holidays, setHolidays] = useState<Holiday[]>([
-    { id: '1', date: '2026-01-01', label: 'Jour de l\'an', type: 'full' },
-    { id: '2', date: '2026-09-22', label: 'Indépendance', type: 'full' },
-    { id: '3', date: '2026-03-15', label: 'Maintenance technique', type: 'half' }
-  ]);
-
+const HolidaysSettings: React.FC<HolidaysSettingsProps> = ({
+  onSave,
+  loading,
+  data = [],
+  onAction
+}) => {
+  const [holidays] = useState<Holiday[]>(data);
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [formData, setFormData] = useState({
-    date: '',
-    label: '',
-    type: 'full' as 'full' | 'half'
+    date: "",
+    label: "",
+    type: "full" as "full" | "half",
   });
-
+  const handleSave = () => {
+      const newHoliday: Holiday = {
+        id: Date.now().toString(),
+        ...formData,
+      };
+      onSave(newHoliday);
+    
+    setFormData({ date: "", label: "", type: "full" });
+  };
   const handleAdd = () => {
     if (!formData.date || !formData.label) return;
-
-    const newHoliday: Holiday = {
-      id: Date.now().toString(),
-      ...formData
-    };
-
-    setHolidays(prev => [...prev, newHoliday]);
-    setFormData({ date: '', label: '', type: 'full' });
     setShowForm(false);
   };
 
-  const handleEdit = (holiday: Holiday) => {
-    setFormData({
-      date: holiday.date,
-      label: holiday.label,
-      type: holiday.type
-    });
-    setEditingId(holiday.id);
-    setShowForm(true);
-  };
-
-  const handleUpdate = () => {
-    if (!formData.date || !formData.label || !editingId) return;
-
-    setHolidays(prev => prev.map(h => 
-      h.id === editingId ? { ...h, ...formData } : h
-    ));
-
-    setFormData({ date: '', label: '', type: 'full' });
-    setEditingId(null);
-    setShowForm(false);
-  };
 
   const handleDelete = (id: string) => {
-    if (window.confirm('Êtes-vous sûr de vouloir supprimer cette date ?')) {
-      setHolidays(prev => prev.filter(h => h.id !== id));
-    }
-  };
-
-  const formatDate = (dateStr: string) => {
-    const [year, month, day] = dateStr.split('-');
-    return `${day}/${month}/${year}`;
+    onAction?.(id);
   };
 
   return (
     <div className="holidays-settings">
-      <h2 className="section-title">
-        <CalendarX size={20} />
-        Dates chômées et fermetures
-      </h2>
+      <div className="holidays-header">
+        <h2 className="section-title">
+          <CalendarX size={20} />
+          Dates chômées et fermetures
+        </h2>
 
+        <div className="header-actions">
+          <button
+            className="btn primary"
+            onClick={handleSave}
+            disabled={loading}
+          >
+            {loading ? (
+              <>
+                <div className="spinner" />
+                Sauvegarde...
+              </>
+            ) : (
+              <>
+                <Save size={18} />
+                Enregistrer tout
+              </>
+            )}
+          </button>
+        </div>
+      </div>
       <div className="info-card">
         <AlertCircle size={18} />
         <div className="info-text">
           <strong>Comment ça fonctionne ?</strong>
-          <p>Les dates ajoutées ici seront exclues de la génération automatique des créneaux.</p>
+          <p>
+            Les dates ajoutées ici seront exclues de la génération automatique
+            des créneaux.
+          </p>
         </div>
       </div>
 
@@ -92,8 +94,8 @@ const HolidaysSettings: React.FC = () => {
         </button>
       ) : (
         <div className="form-card">
-          <h3>{editingId ? 'Modifier' : 'Nouvelle'} date chômée</h3>
-          
+          <h3>{editingId ? "Modifier" : "Nouvelle"} date chômée</h3>
+
           <div className="form-grid">
             <div className="form-group">
               <label htmlFor="date">Date</label>
@@ -101,7 +103,9 @@ const HolidaysSettings: React.FC = () => {
                 type="date"
                 id="date"
                 value={formData.date}
-                onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, date: e.target.value })
+                }
                 className="form-input"
               />
             </div>
@@ -112,7 +116,9 @@ const HolidaysSettings: React.FC = () => {
                 type="text"
                 id="label"
                 value={formData.label}
-                onChange={(e) => setFormData({ ...formData, label: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, label: e.target.value })
+                }
                 placeholder="Ex: Jour de l'an, Maintenance..."
                 className="form-input"
               />
@@ -123,7 +129,12 @@ const HolidaysSettings: React.FC = () => {
               <select
                 id="type"
                 value={formData.type}
-                onChange={(e) => setFormData({ ...formData, type: e.target.value as 'full' | 'half' })}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    type: e.target.value as "full" | "half",
+                  })
+                }
                 className="form-select"
               >
                 <option value="full">Journée complète</option>
@@ -133,22 +144,22 @@ const HolidaysSettings: React.FC = () => {
           </div>
 
           <div className="form-actions">
-            <button 
+            <button
               className="btn secondary"
               onClick={() => {
                 setShowForm(false);
                 setEditingId(null);
-                setFormData({ date: '', label: '', type: 'full' });
+                setFormData({ date: "", label: "", type: "full" });
               }}
             >
               Annuler
             </button>
-            <button 
+            <button
               className="btn primary"
-              onClick={editingId ? handleUpdate : handleAdd}
+              onClick={handleAdd}
               disabled={!formData.date || !formData.label}
             >
-              {editingId ? 'Mettre à jour' : 'Ajouter'}
+              {"Ajouter"}
             </button>
           </div>
         </div>
@@ -164,24 +175,26 @@ const HolidaysSettings: React.FC = () => {
             <div className="header-cell actions-cell">Actions</div>
           </div>
 
-          {holidays.map(holiday => (
+          {holidays.map((holiday) => (
             <div key={holiday.id} className="list-item">
               <div className="item-cell">
-                <span className="date-badge">{formatDate(holiday.date)}</span>
+                <span className="date-badge">{holiday.date}</span>
               </div>
               <div className="item-cell">
                 <span className="holiday-label">{holiday.label}</span>
               </div>
               <div className="item-cell">
                 <span className={`type-badge ${holiday.type}`}>
-                  {holiday.type === 'full' ? 'Journée complète' : 'Demi-journée'}
+                  {holiday.type === "full"
+                    ? "Journée complète"
+                    : "Demi-journée"}
                 </span>
               </div>
               <div className="item-cell actions-cell">
-                <button className="action-btn-svg" onClick={() => handleEdit(holiday)}>
-                  <Edit size={16} />
-                </button>
-                <button className="action-btn-svg delete" onClick={() => handleDelete(holiday.id)}>
+                <button
+                  className="action-btn-svg delete"
+                  onClick={() => handleDelete(holiday.id)}
+                >
                   <Trash2 size={16} />
                 </button>
               </div>

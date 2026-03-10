@@ -12,6 +12,8 @@ import { handlePrint } from "../../../utils/Print";
 import axios from "axios";
 import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
+import AppointmentsPageSkeleton from "../skeleton/AppointementSkeleton";
+import { useSecureInput } from "../../../utils/Sanitize";
 
 // Types
 interface AppointmentData {
@@ -28,12 +30,12 @@ interface AppointmentData {
 const AppointmentsPage: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date(localStorage.getItem("appointmentDate") || new Date()));
   const [selectedService, setSelectedService] = useState<string>("all");
-  const [searchTerm, setSearchTerm] = useState<string>("");
+  const searchTerm = useSecureInput("", "text", { maxLength: 100 });
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [appointments, setAppointments] = useState<AppointmentData[]>([]);
   const [itemsPerPage, setItemsPerPage] = useState<number>(5);
   const [currentPage, setCurrentPage] = useState<number>(1);
-
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const serviceId = 1;
   useEffect(() => {
     axios
@@ -42,9 +44,11 @@ const AppointmentsPage: React.FC = () => {
       )
       .then((response) => {
         setAppointments(response.data);
+        setIsLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching today's appointments:", error);
+        setIsLoading(false);
       });
   }, [selectedDate, serviceId]);
   const appointmentFormated: Appointment[] = appointments.map((m) => ({
@@ -84,8 +88,8 @@ const AppointmentsPage: React.FC = () => {
       return false;
     if (statusFilter !== "all" && apt.status !== statusFilter) return false;
     if (
-      searchTerm &&
-      !apt.fullName.toLowerCase().includes(searchTerm.toLowerCase())
+      searchTerm.value &&
+      !apt.fullName.toLowerCase().includes(searchTerm.value.toString().toLowerCase())
     )
       return false;
     return true;
@@ -115,9 +119,12 @@ const AppointmentsPage: React.FC = () => {
       setCurrentPage(page - 1);
     }
   };
-
+  if(isLoading){
+    return <AppointmentsPageSkeleton />
+  }
   return (
     <div className="appointments-page print-area">
+    
       {/* Header */}
       <header className="page-header">
         <div className="header-left">
@@ -154,8 +161,8 @@ const AppointmentsPage: React.FC = () => {
           <input
             type="text"
             placeholder="Rechercher un client..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            value={searchTerm.value}
+            onChange={searchTerm.handleChange}
           />
         </div>
 

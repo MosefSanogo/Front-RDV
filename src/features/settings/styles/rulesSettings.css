@@ -4,7 +4,7 @@
     gap: 2rem;
 }
 
-.section-title {
+.rules-settings .section-title {
     display: flex;
     align-items: center;
     gap: 0.75rem;
@@ -12,10 +12,15 @@
     font-weight: 600;
     color: var(--text-primary);
     margin: 0;
-    padding-bottom: 1rem;
+    border: none;
+}
+.rules-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom:0.5rem;
     border-bottom: 1px solid var(--border-default);
 }
-
 .rules-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);

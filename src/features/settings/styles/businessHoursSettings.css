@@ -3,8 +3,14 @@
     flex-direction: column;
     gap: 2rem;
 }
-
-.section-title {
+.hours-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom:0.5rem;
+    border-bottom: 1px solid var(--border-default);
+}
+.business-hours .section-title {
     display: flex;
     align-items: center;
     gap: 0.75rem;
@@ -13,7 +19,7 @@
     color: var(--text-primary);
     margin: 0;
     padding-bottom: 1rem;
-    border-bottom: 1px solid var(--border-default);
+    border: none;
 }
 
 .hours-summary {

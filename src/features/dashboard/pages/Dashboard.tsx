@@ -7,6 +7,7 @@ import StatsCard from "../components/StatsCard";
 import "./dashboard.css";
 import axios from "axios";
 import type { RendezVous } from "../../../config/Types";
+import DashboardSkeleton from "../skeleton/DashboardSkeleton";
 interface Appointment {
   id: number;
   heure: string;
@@ -51,9 +52,11 @@ function Dashboard() {
       )
       .then((response) => {
         setAppointments(response.data);
+        setIsLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching today's appointments:", error);
+        setIsLoading(false);
       });
   }, [selectedDate, serviceId]);
 
@@ -64,10 +67,11 @@ function Dashboard() {
       )
       .then((response) => {
         setBarChartData(response.data);
-        console.log(response.data);
+        setIsLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching bar chart data:", error);
+        setIsLoading(false);
       });
   }, [selectedDate, serviceId]);
 
@@ -78,9 +82,11 @@ function Dashboard() {
       )
       .then((response) => {
         setCount(response.data.count);
+        setIsLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching active services count:", error);
+        setIsLoading(false);
       });
   }, [serviceId]);
 
@@ -91,10 +97,11 @@ function Dashboard() {
       )
       .then((response) => {
         setClientCount(response.data.count);
-        console.log(response.data);
+        setIsLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching client count:", error);
+        setIsLoading(false);
       });
   }, [serviceId]);
 
@@ -114,13 +121,17 @@ function Dashboard() {
         item.total_reservations,
     ),
   };
+
+  if(isLoading){
+    return <DashboardSkeleton />
+  }
+
   return (
     <div className="dashboard">
       <div className="dashboard-header">
         <h1>Dashboard</h1>
         <DatePickerValue value={selectedDate} onDateChange={setSelectedDate} name={"dashDate"}/>
       </div>
-
       <StatsCard
         todayAppointments={reservations.length}
         totalClients={clientCount}

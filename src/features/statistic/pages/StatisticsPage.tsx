@@ -26,6 +26,7 @@ import type { DispersionChar } from "../../../components/ui/LineChart";
 import DispersionChart from "../../../components/ui/LineChart";
 import axios from "axios";
 import type { HourlyData, KPI, MonthlyTrend, Period, ServiceStat, Static } from "../types/StatisticType";
+import StatisticsPageSkeletonSimple from "../skeleton/StatisticSkeleton";
 
 
 const StatisticsPage: React.FC = () => {
@@ -33,12 +34,11 @@ const StatisticsPage: React.FC = () => {
   const [selectedPeriod, setSelectedPeriod] = useState<Period["id"]>("day");
   const [selectedService, setSelectedService] = useState<string>("all");
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-  const [loading, setLoading] = useState(true);
   const [staticData, setStaticData] = useState<Static[]>([]);
   const [hourData, setHourData] = useState<HourlyData[]>([]);
   const [serviceData, setServiceData] = useState<CicularChar[]>([]);
   const [monthData, setMonthData] = useState<MonthlyTrend[]>([]);
-
+  const [isloading, setIsLoading] = useState(true);
   // OPTIMISATION 1: Ajouter les dépendances manquantes dans useEffect
   useEffect(() => {
     axios
@@ -47,11 +47,11 @@ const StatisticsPage: React.FC = () => {
       )
       .then((response) => {
         setStaticData(response.data);
-        setLoading(false);
+        setIsLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching today's appointments:", error);
-        setLoading(false);
+        setIsLoading(false);
       });
   }, [serviceId]); // ✅ AJOUT: dépendance serviceId
 
@@ -63,8 +63,7 @@ const StatisticsPage: React.FC = () => {
   // OPTIMISATION 3: useEffect combiné pour réduire le code dupliqué
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true);
-      
+      setIsLoading(true);
       // Construire les endpoints selon la période
       const endpoints = {
         hour: selectedPeriod === "day" || selectedPeriod === "week" 
@@ -117,7 +116,7 @@ const StatisticsPage: React.FC = () => {
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
     };
 
@@ -177,16 +176,9 @@ const StatisticsPage: React.FC = () => {
   }, []);
 
   // OPTIMISATION 9: Chargement avec skeleton
-  if (loading) {
+  if (isloading) {
     return (
-      <div className="statistics-page">
-        <div className="loading-skeleton">
-          <div className="skeleton-header" />
-          <div className="skeleton-filters" />
-          <div className="skeleton-kpis" />
-          <div className="skeleton-charts" />
-        </div>
-      </div>
+      <StatisticsPageSkeletonSimple/>
     );
   }
 

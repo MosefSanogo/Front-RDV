@@ -24,7 +24,6 @@ const ServiceModal: React.FC<ServiceModalProps> = ({
 }) => {
   const [activeTab, setActiveTab] = useState<string>('subservices');
   const [subServices, setSubServices] = useState<SubService_Info[]>([]);
-
   const handleSave = () => {
       onSave(subServices);
       console.log(subServices)

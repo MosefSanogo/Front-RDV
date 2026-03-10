@@ -1,69 +1,161 @@
-import React, { useState } from 'react';
-import { 
-  Settings, 
-  Building2, 
-  Clock, 
-  Users, 
+import React, { useCallback, useEffect, useState } from "react";
+import {
+  Settings,
+  Building2,
+  Clock,
+  Users,
   Calendar,
   CalendarX,
   Bell,
   Shield,
-  Save,
   Globe,
-  AlertCircle
-} from 'lucide-react';
+} from "lucide-react";
 
-import '../styles/settingsPage.css';
-import GeneralSettings from '../components/GeneralSettings';
-import BusinessHoursSettings from '../components/BusinessHoursSettings';
-import HolidaysSettings from '../components/HolidaysSettings';
-import RulesSettings from '../components/RulesSettings';
-import CapacitySettings from '../components/CapacitySettings';
+import "../styles/settingsPage.css";
+import GeneralSettings from "../components/GeneralSettings";
+import BusinessHoursSettings, { type DaySchedule } from "../components/BusinessHoursSettings";
+import HolidaysSettings, { type Holiday } from "../components/HolidaysSettings";
+import RulesSettings, { type Rule } from "../components/RulesSettings";
+import CapacitySettings from "../components/CapacitySettings";
+import axios from "axios";
+import { toast } from "react-toastify";
+import Loader from "../../../components/ui/Loader";
 
 const SettingsPage: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<string>('general');
+  const [activeTab, setActiveTab] = useState<string>("general");
   const [isSaving, setIsSaving] = useState<boolean>(false);
-  const [showSuccess, setShowSuccess] = useState<boolean>(false);
-
+  const [holidays, setHolidays] = useState<Holiday[]>([]);
+  const [rules, setRules] = useState<Rule>({} as Rule);
+  const [subServices, setSubServices] = useState<{ id: string; nom: string }[]>([]);
   const tabs = [
-    { id: 'general', label: 'Général', icon: Building2 },
-    { id: 'hours', label: 'Horaires', icon: Clock },
-    { id: 'capacity', label: 'Capacité', icon: Users },
-    { id: 'holidays', label: 'Jours chômés', icon: CalendarX },
-    { id: 'rules', label: 'Règles', icon: Calendar },
-    { id: 'notifications', label: 'Notifications', icon: Bell },
-    { id: 'security', label: 'Sécurité', icon: Shield }
+    { id: "general", label: "Général", icon: Building2 },
+    { id: "hours", label: "Horaires", icon: Clock },
+    { id: "capacity", label: "Capacité", icon: Users },
+    { id: "holidays", label: "Jours chômés", icon: CalendarX },
+    { id: "rules", label: "Règles", icon: Calendar },
+    { id: "notifications", label: "Notifications", icon: Bell },
+    { id: "security", label: "Sécurité", icon: Shield },
   ];
 
-  const handleSaveAll = () => {
+  const serviceId = 1;
+  const handleSaveHolidays = useCallback((data: Holiday) => {
     setIsSaving(true);
-    setShowSuccess(false);
-    
-    // Simuler une sauvegarde
-    setTimeout(() => {
-      setIsSaving(false);
-      setShowSuccess(true);
-      
-      // Masquer le message après 3 secondes
-      setTimeout(() => {
-        setShowSuccess(false);
-      }, 3000);
-    }, 1500);
-  };
+      axios
+        .post(`${import.meta.env.VITE_API_URL}/jour-ferie/register`, {
+          id_service: serviceId,
+          date: data.date,
+          description: data.label,
+          type: data.type,
+        })
+        .then(() => {
+          setIsSaving(false);
+          toast.success("Jour férié enregistré avec succès !");
+        })
+        .catch((error) => {
+          console.error("Error saving holiday:", error);
+          setIsSaving(false);
+          toast.error("Erreur lors de l'enregistrement du jour férié.");
+        });
+
+  }, [serviceId]);
+  const handleSaveRules = useCallback((data: Rule) => {
+    setIsSaving(true);
+    console.log(data)
+    axios
+      .post(`${import.meta.env.VITE_API_URL}/rules/register`, {
+        service_id: serviceId,
+        delay_min: data.minDelay,
+        delay_max: data.maxAdvance,
+        client_max: data.maxPerDay,
+        delay_cancel: data.cancellationDelay,
+      })
+      .then(() => {
+        setIsSaving(false);
+        toast.success("Règles enregistrées avec succès !");
+      })
+      .catch((error) => {
+        console.error("Error saving rules:", error);
+        setIsSaving(false);
+        toast.error("Erreur lors de l'enregistrement des règles.");
+      });
+  }, [serviceId]);
+
+  const handleSaveHours = useCallback((data: DaySchedule[], subServiceId: string) => {
+    setIsSaving(true);
+    const payload = data.map((d) => ({
+      service_id: serviceId,
+      sous_service_id: Number(subServiceId),
+      jour_semaine: Number(d.id),
+      heure_debut: d.openTime,
+      heure_fin: d.closeTime,
+      capacity_heure: d.capacity
+    }));
+    axios
+      .post(`${import.meta.env.VITE_API_URL}/horaire-travail/register`, payload)
+      .then(() => {
+        setIsSaving(false);
+        toast.success("Horaires enregistrés avec succès !");
+      })
+      .catch((error) => {
+        console.error("Error saving hours:", error);
+        setIsSaving(false);
+        toast.error("Erreur lors de l'enregistrement des horaires.");
+      });
+  }, [serviceId]);
+
+  useEffect(() => {
+    axios
+      .get(
+        `${import.meta.env.VITE_API_URL}/jour-ferie/findByServiceId/${serviceId}`,
+      )
+      .then((response) => {
+        setHolidays(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching holidays:", error);
+      });
+  }, [serviceId]);
+
+  useEffect(() => {
+    axios
+      .get(
+        `${import.meta.env.VITE_API_URL}/rules/findByServiceId/${serviceId}`,
+      )
+      .then((response) => {
+        setRules(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching rules:", error);
+      });
+  }, [serviceId]);
+
+  useEffect(() => {
+    axios
+      .get(
+        `${import.meta.env.VITE_API_URL}/service/findAllSousServices/${serviceId}`,
+      )
+      .then((response) => {
+        setSubServices(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching sub-services:", error);
+      });
+  }, [serviceId]);
+
 
   const renderTabContent = () => {
-    switch(activeTab) {
-      case 'general':
+    switch (activeTab) {
+      case "general":
         return <GeneralSettings />;
-      case 'hours':
-        return <BusinessHoursSettings />;
-      case 'capacity':
+      case "hours":
+        return <BusinessHoursSettings onSave={handleSaveHours} subServices={subServices} />;
+      case "capacity":
         return <CapacitySettings />;
-      case 'holidays':
-        return <HolidaysSettings />;
-      case 'rules':
-        return <RulesSettings />;
-      case 'security':
+      case "holidays":
+        return <HolidaysSettings onSave={handleSaveHolidays} data={holidays} />;
+      case "rules":
+        return <RulesSettings onSave={handleSaveRules} data={rules}/>;
+      case "security":
         return <div className="coming-soon">Module Sécurité (à venir)</div>;
       default:
         return null;
@@ -83,58 +175,30 @@ const SettingsPage: React.FC = () => {
             Configurez le comportement global de votre système
           </p>
         </div>
-        
-        <div className="header-actions">
-          <button 
-            className="btn primary"
-            onClick={handleSaveAll}
-            disabled={isSaving}
-          >
-            {isSaving ? (
-              <>
-                <div className="spinner" />
-                Sauvegarde...
-              </>
-            ) : (
-              <>
-                <Save size={18} />
-                Enregistrer tout
-              </>
-            )}
-          </button>
-        </div>
       </header>
-
-      {/* Message de succès */}
-      {showSuccess && (
-        <div className="success-message">
-          <AlertCircle size={18} />
-          <span>Configuration enregistrée avec succès !</span>
-        </div>
-      )}
 
       {/* Navigation par onglets */}
       <div className="settings-container">
         <div className="settings-sidebar">
           <nav className="tabs-nav">
-            {tabs.map(tab => {
+            {tabs.map((tab) => {
               const Icon = tab.icon;
               return (
                 <button
                   key={tab.id}
-                  className={`tab-btn ${activeTab === tab.id ? 'active' : ''}`}
+                  className={`tab-btn ${activeTab === tab.id ? "active" : ""}`}
                   onClick={() => setActiveTab(tab.id)}
                 >
                   <Icon size={18} />
                   <span>{tab.label}</span>
-                  {tab.id === 'holidays' && (
+                  {tab.id === "holidays" && (
                     <span className="tab-badge">3</span>
                   )}
                 </button>
               );
             })}
           </nav>
-          
+
           <div className="sidebar-footer">
             <div className="info-card">
               <Globe size={16} />
@@ -146,10 +210,9 @@ const SettingsPage: React.FC = () => {
           </div>
         </div>
 
-        <div className="settings-content">
-          {renderTabContent()}
-        </div>
+        <div className="settings-content">{renderTabContent()}</div>
       </div>
+      {isSaving && (<Loader />)}
     </div>
   );
 };

@@ -28,12 +28,13 @@ import Loader from "../../../components/ui/Loader";
 import axios from "axios";
 import { toast } from "react-toastify";
 import DeleteConfirmationModal from "../../../components/ui/DeleteConfirmationModal";
+import AppointmentsPageSkeleton from "../../appointement/skeleton/AppointementSkeleton";
+import { useSecureInput } from "../../../utils/Sanitize";
 
 const ServicesPage: React.FC = () => {
   const [services, setServices] = useState<SubService[]>([]);
-
   const [subServiceInfo, setSubServiceInfo] = useState<SubService_Info[]>([]);
-
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [serviceInfo] = useState<Service_Info>({
     id: "1",
     nom: "Centre Médical Principal",
@@ -52,9 +53,11 @@ const ServicesPage: React.FC = () => {
       )
       .then((response) => {
         setServices(response.data);
+        setIsLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching active services count:", error);
+        setIsLoading(false);
       });
   }, [serviceId]);
 
@@ -62,12 +65,11 @@ const ServicesPage: React.FC = () => {
     null,
   );
   const [showServiceModal, setShowServiceModal] = useState<boolean>(false);
-  const [searchTerm, setSearchTerm] = useState<string>("");
+  const searchTerm = useSecureInput("", "text", { maxLength: 100 });
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [loading, setLoading] = useState<boolean>(false);
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
-  const [deleting, setDeleting] = useState<boolean>(false);
   const [deleteId,setDeleteId] = useState<string>("");
   // Catégories disponibles
   const categories = [
@@ -95,8 +97,17 @@ const ServicesPage: React.FC = () => {
   };
 
   const handleDelete = ()=>{
-    setDeleting(true)
-    setServices((prev) => prev.filter((service) => service.id !== deleteId));
+    axios.delete(`${import.meta.env.VITE_API_URL}/service/deleteSousService/${deleteId}`)
+    .then(response=>{
+      toast.success(response.data.message);
+      setServices((prev)=>prev.filter((s)=>s.id !== deleteId))
+      setShowDeleteModal(false)
+    })
+    .catch(error=>{
+      toast.error('Une erreur est survenue')
+      console.log(error)
+      setShowDeleteModal(false)
+    })
   }
 
   const handleToggleStatus = (id: string) => {
@@ -152,11 +163,14 @@ const ServicesPage: React.FC = () => {
       axios.post(`${import.meta.env.VITE_API_URL}/service/addSousService`,
         {
           data: serviceData.map(item=>({nom: item.nom})),
-          serviceId: 3
+          serviceId: 1
         }
       ).then(response=>{
         toast.success(response.data.message)
         setLoading(false);
+        setTimeout(() => {
+          window.location.reload();
+        }, 500);
       }).catch(error=>{
         console.log(error)
         toast.error(error?.message)
@@ -173,8 +187,8 @@ const ServicesPage: React.FC = () => {
       return false;
     if (statusFilter !== "all" && service.status !== statusFilter) return false;
     if (
-      searchTerm &&
-      !service.name.toLowerCase().includes(searchTerm.toLowerCase())
+      searchTerm.value &&
+      !service.name.toLowerCase().includes(searchTerm.value.toString().toLowerCase())
     )
       return false;
     return true;
@@ -206,6 +220,9 @@ const ServicesPage: React.FC = () => {
     }
   };
 
+  if(isLoading){
+    return <AppointmentsPageSkeleton />
+  }
   return (
     <div className="services-page">
       {/* Header */}
@@ -250,8 +267,8 @@ const ServicesPage: React.FC = () => {
           <input
             type="text"
             placeholder="Rechercher un service..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            value={searchTerm.value}
+            onChange={searchTerm.handleChange}
           />
         </div>
 
@@ -368,7 +385,6 @@ const ServicesPage: React.FC = () => {
         onClose={() => setShowDeleteModal(false)}
         onConfirm={handleDelete}
         title="Supprimer ce service ?"
-        isLoading={deleting}
       />
     </div>
   );

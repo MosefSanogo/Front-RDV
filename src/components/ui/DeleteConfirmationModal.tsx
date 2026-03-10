@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { X, AlertTriangle } from 'lucide-react';
 import './DeleteConfirmationModal.css';
 
@@ -19,6 +19,34 @@ const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
   message,
   isLoading = false
 }) => {
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
+
+  // Gérer la touche Echap
+  useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen && !isLoading) {
+        onClose();
+      }
+    };
+    
+    window.addEventListener('keydown', handleEsc);
+    
+    return () => {
+      window.removeEventListener('keydown', handleEsc);
+    };
+  }, [isOpen, isLoading, onClose]);
+
   if (!isOpen) return null;
 
   const defaultMessage = `Êtes-vous sûr de vouloir supprimer cet élement ? Cette action est irréversible.`;
@@ -32,7 +60,7 @@ const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
             <AlertTriangle size={24} className="warning-icon" />
             <h2>{title}</h2>
           </div>
-          <button className="close-btn" onClick={onClose} disabled={isLoading}>
+          <button className="close-btn" onClick={onClose} disabled={isLoading} type='button'>
             <X size={20} />
           </button>
         </div>
@@ -57,6 +85,7 @@ const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
             className="btn delete-btn" 
             onClick={onConfirm}
             disabled={isLoading}
+            type='button'
           >
             {isLoading ? (
               <>

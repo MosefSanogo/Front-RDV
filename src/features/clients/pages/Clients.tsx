@@ -9,6 +9,7 @@ import ClientsTable from "../components/ClientsTable";
 import ClientDrawer from "../components/ClientDrawer";
 import type { ClientInfo } from "../../../config/Types";
 import axios from "axios";
+import AppointmentsPageSkeleton from "../../appointement/skeleton/AppointementSkeleton";
 
 // Types
 interface Client {
@@ -32,10 +33,11 @@ const Clients: React.FC = () => {
   const [selectedClient, setSelectedClient] = useState<Client | null>(null);
   const [showDrawer, setShowDrawer] = useState<boolean>(false);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [itemsPerPage, setItemsPerPage] = useState<number>(10);
+  const [itemsPerPage, setItemsPerPage] = useState<number>(5);
   const [sortBy, setSortBy] = useState<string>("name");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
   const [sousService, setSousService] = useState<string>("");
+  const [isloading, setIsLoading] = useState<boolean>(true);
   const serviceId = 1;
   // Données d'exemple
   const [clients, setClients] = useState<Client[]>([]);
@@ -45,9 +47,11 @@ const Clients: React.FC = () => {
         `${import.meta.env.VITE_API_URL}/reservation/findAllClientReservation/${serviceId}`,
       ).then((response) => {
         setClients(response.data);
+        setIsLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching active services count:", error);
+        setIsLoading(false);
       });
   },[serviceId])
   // Services disponibles pour le filtre
@@ -168,6 +172,9 @@ const Clients: React.FC = () => {
 
   const handleSave = (clientInfo: ClientInfo) => {
     console.log(clientInfo)
+  }
+  if(isloading){
+    return <AppointmentsPageSkeleton/>
   }
   return (
     <div className="clients-page">

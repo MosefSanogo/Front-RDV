@@ -1,28 +1,68 @@
-import React, { useState } from 'react';
-import { Calendar, Clock, Users, AlertCircle } from 'lucide-react';
-import '../styles/rulesSettings.css';
-const RulesSettings: React.FC = () => {
-  const [rules, setRules] = useState({
-    minDelay: 2,
-    maxAdvance: 30,
-    maxPerDay: 3,
-    maxPerWeek: 5,
-    cancellationDelay: 24,
-    allowWeekends: false,
-    autoConfirm: true
+import React, { useState } from "react";
+import { Calendar, Clock, Users, AlertCircle, Save } from "lucide-react";
+import "../styles/rulesSettings.css";
+
+export interface Rule {
+  minDelay: number;
+  maxAdvance: number;
+  maxPerDay: number;
+  cancellationDelay: number;
+  allowWeekends: boolean;
+  autoConfirm: boolean;
+}
+interface RulesSettingsProps {
+  loading?: boolean;
+  onSave?: (rules: Rule) => void;
+  data: Rule;
+}
+const RulesSettings: React.FC<RulesSettingsProps> = ({
+  loading = false,
+  onSave,
+  data,
+}) => {
+  const [rules, setRules] = useState<Rule>({
+    minDelay: data?.minDelay || 2,
+    maxAdvance: data?.maxAdvance || 30,
+    maxPerDay: data?.maxPerDay || 3,
+    cancellationDelay: data?.cancellationDelay || 24,
+    allowWeekends: data?.allowWeekends || false,
+    autoConfirm: data?.autoConfirm || true,
   });
 
   const handleChange = (field: string, value: string | number | boolean) => {
-    setRules(prev => ({ ...prev, [field]: value }));
+    setRules((prev) => ({ ...prev, [field]: value }));
+  };
+  const handleSave = () => {
+    onSave?.(rules);
   };
 
   return (
     <div className="rules-settings">
-      <h2 className="section-title">
-        <Calendar size={20} />
-        Règles automatiques
-      </h2>
-
+      <div className="rules-header">
+        <h2 className="section-title">
+          <Calendar size={20} />
+          Règles automatiques
+        </h2>
+        <div className="header-actions">
+          <button
+            className="btn primary"
+            onClick={handleSave}
+            disabled={loading}
+          >
+            {loading ? (
+              <>
+                <div className="spinner" />
+                Sauvegarde...
+              </>
+            ) : (
+              <>
+                <Save size={18} />
+                Enregistrer tout
+              </>
+            )}
+          </button>
+        </div>
+      </div>
       <div className="rules-grid">
         {/* Délai minimum */}
         <div className="rule-card">
@@ -37,7 +77,9 @@ const RulesSettings: React.FC = () => {
                 min="0"
                 max="24"
                 value={rules.minDelay}
-                onChange={(e) => handleChange('minDelay', parseInt(e.target.value))}
+                onChange={(e) =>
+                  handleChange("minDelay", parseInt(e.target.value))
+                }
                 className="rule-slider"
               />
               <div className="value-display">
@@ -46,7 +88,8 @@ const RulesSettings: React.FC = () => {
               </div>
             </div>
             <p className="rule-description">
-              Les clients ne peuvent pas prendre RDV moins de {rules.minDelay}h à l'avance
+              Les clients ne peuvent pas prendre RDV moins de {rules.minDelay}h
+              à l'avance
             </p>
           </div>
         </div>
@@ -64,7 +107,9 @@ const RulesSettings: React.FC = () => {
                 min="1"
                 max="90"
                 value={rules.maxAdvance}
-                onChange={(e) => handleChange('maxAdvance', parseInt(e.target.value))}
+                onChange={(e) =>
+                  handleChange("maxAdvance", parseInt(e.target.value))
+                }
                 className="rule-slider"
               />
               <div className="value-display">
@@ -86,15 +131,23 @@ const RulesSettings: React.FC = () => {
           </div>
           <div className="rule-content">
             <div className="number-input">
-              <button 
+              <button
                 className="number-btn"
-                onClick={() => handleChange('maxPerDay', Math.max(1, rules.maxPerDay - 1))}
-              >-</button>
+                onClick={() =>
+                  handleChange("maxPerDay", Math.max(1, rules.maxPerDay - 1))
+                }
+              >
+                -
+              </button>
               <span className="number-value">{rules.maxPerDay}</span>
-              <button 
+              <button
                 className="number-btn"
-                onClick={() => handleChange('maxPerDay', Math.min(10, rules.maxPerDay + 1))}
-              >+</button>
+                onClick={() =>
+                  handleChange("maxPerDay", Math.min(10, rules.maxPerDay + 1))
+                }
+              >
+                +
+              </button>
             </div>
             <p className="rule-description">
               Maximum {rules.maxPerDay} RDV par jour pour un même client
@@ -115,7 +168,9 @@ const RulesSettings: React.FC = () => {
                 min="0"
                 max="48"
                 value={rules.cancellationDelay}
-                onChange={(e) => handleChange('cancellationDelay', parseInt(e.target.value))}
+                onChange={(e) =>
+                  handleChange("cancellationDelay", parseInt(e.target.value))
+                }
                 className="rule-slider"
               />
               <div className="value-display">
@@ -124,7 +179,8 @@ const RulesSettings: React.FC = () => {
               </div>
             </div>
             <p className="rule-description">
-              Annulation possible jusqu'à {rules.cancellationDelay}h avant le RDV
+              Annulation possible jusqu'à {rules.cancellationDelay}h avant le
+              RDV
             </p>
           </div>
         </div>
@@ -139,7 +195,9 @@ const RulesSettings: React.FC = () => {
               <input
                 type="checkbox"
                 checked={rules.allowWeekends}
-                onChange={(e) => handleChange('allowWeekends', e.target.checked)}
+                onChange={(e) =>
+                  handleChange("allowWeekends", e.target.checked)
+                }
               />
               <span>Autoriser les réservations le week-end</span>
             </label>
@@ -148,7 +206,7 @@ const RulesSettings: React.FC = () => {
               <input
                 type="checkbox"
                 checked={rules.autoConfirm}
-                onChange={(e) => handleChange('autoConfirm', e.target.checked)}
+                onChange={(e) => handleChange("autoConfirm", e.target.checked)}
               />
               <span>Confirmation automatique des rendez-vous</span>
             </label>

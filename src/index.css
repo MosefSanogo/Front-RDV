@@ -85,6 +85,8 @@
     --warning: #F59E0B;
     --error: #EF4444;
     --info: #38BDF8;
+
+    --skeleton-bg: #dedede;
   }
 }
 
@@ -143,6 +145,8 @@
     --warning: #F59E0B;
     --error: #EF4444;
     --info: #38BDF8;
+
+    --skeleton-bg: #374151;
   }
 }
 

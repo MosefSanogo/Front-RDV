@@ -5,6 +5,7 @@ import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
 import { Calendar, ChevronLeft, ChevronRight } from "lucide-react";
 import axios from "axios";
+import CreneauxPageSkeleton from "../skeleton/CreneauxSkeleton";
 function Creneaux() {
 
   const [selectedDate, setSelectedDate] = useState<Date>(new Date(localStorage.getItem("creneauDate") || new Date()));
@@ -43,6 +44,9 @@ function Creneaux() {
       setCurrentPage(page - 1);
     }
   };
+  if(isLoading){
+    return <CreneauxPageSkeleton />
+  }
   return (
     <div className="creneaux-page">
       <h1>
