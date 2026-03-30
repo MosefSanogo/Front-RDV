@@ -489,6 +489,24 @@
      background: var(--text-disabled);
  }
 
+ .client-form{
+    width: 85%;
+    padding: 0rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+ }
+ .client-form-group{
+    display: flex;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    overflow: hidden;
+ }
+  .client-form-group button{
+    width: 150px;
+  }
+
  /* Responsive */
  @media (max-width: 768px) {
      .client-drawer {

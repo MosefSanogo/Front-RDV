@@ -132,6 +132,11 @@ export const sanitizeInput = (value: string, type = 'text', options: { maxLength
     }
 
     case 'email': {
+      sanitized = sanitized
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-zA-Z0-9._%+\-@]/g, '') 
+      .slice(0, 254);
       sanitized = sanitized.toLowerCase();
       sanitized = removeControlChars(sanitized);
       sanitized = truncate(sanitized, 254);

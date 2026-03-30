@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import './serviceModal.css';
 import type { Service_Info, SubService, SubService_Info } from '../../../config/Types';
+import { sanitizeInput } from '../../../utils/Sanitize';
 // Types
 
 
@@ -40,7 +41,7 @@ const ServiceModal: React.FC<ServiceModalProps> = ({
 
   const handleUpdateSubService = (id: string, updates: Partial<SubService_Info>) => {
     setSubServices(prev => prev.map(sub => 
-      sub.id === id ? { ...sub, ...updates } : sub
+      sub.id === id ? { ...sub, nom: sanitizeInput(updates.nom || '','text',{ maxLength: 100 }).value as string, } : sub
     ));
   };
 
@@ -136,6 +137,7 @@ const SubServiceManager: React.FC<{
   onUpdate: (id: string, updates: Partial<SubService_Info>) => void;
   onDelete?: (id: string) => void;
 }> = ({ subServices, onAdd, onUpdate }) => {
+  
   return (
     <div className="subservice-manager">
       <div className="manager-header">

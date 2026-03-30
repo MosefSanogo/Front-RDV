@@ -122,7 +122,7 @@ const ClientsTable: React.FC<ClientsTableProps> = ({
               <td>
                 <div className="client-info">
                   <div className="client-avatar">
-                    {client.fullName.split(' ').map(n => n[0]).join('')}
+                    {client.fullName.split(' ').map(n => n[0]).join('') || 'CL'}
                   </div>
                   <div className="client-details">
                     <div className="client-name">{client.fullName}</div>

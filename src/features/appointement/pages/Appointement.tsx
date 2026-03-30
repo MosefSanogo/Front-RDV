@@ -14,6 +14,7 @@ import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
 import AppointmentsPageSkeleton from "../skeleton/AppointementSkeleton";
 import { useSecureInput } from "../../../utils/Sanitize";
+import { AuthContext } from "../../../contexts/AuthContext";
 
 // Types
 interface AppointmentData {
@@ -36,7 +37,8 @@ const AppointmentsPage: React.FC = () => {
   const [itemsPerPage, setItemsPerPage] = useState<number>(5);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const serviceId = 1;
+  const { user } = React.useContext(AuthContext);
+  const serviceId = user ? Number(user.id) : null;
   useEffect(() => {
     axios
       .get(

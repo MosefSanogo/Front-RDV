@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import DatePickerValue from "../../../components/ui/DatePicker";
 import AppointmentsToday from "../../appointement/components/AppointmentsToday";
 import SimpleCharts, { type BarChartData } from "../components/BarChar";
@@ -8,6 +8,7 @@ import "./dashboard.css";
 import axios from "axios";
 import type { RendezVous } from "../../../config/Types";
 import DashboardSkeleton from "../skeleton/DashboardSkeleton";
+import { AuthContext } from "../../../contexts/AuthContext";
 interface Appointment {
   id: number;
   heure: string;
@@ -27,7 +28,8 @@ function Dashboard() {
   const [isLoading, setIsLoading] = useState(true);
   const [count, setCount] = useState(0);
   const [clientCount, setClientCount] = useState(0);
-  const serviceId = 1; // Remplacez par l'ID de votre service
+   const { user } = useContext(AuthContext);
+  const serviceId = user ? Number(user.id) : null; // Remplacez par l'ID de votre service
   const sousService = 0;
   useEffect(() => {
     axios

@@ -10,6 +10,10 @@ import ClientDrawer from "../components/ClientDrawer";
 import type { ClientInfo } from "../../../config/Types";
 import axios from "axios";
 import AppointmentsPageSkeleton from "../../appointement/skeleton/AppointementSkeleton";
+import { AuthContext } from "../../../contexts/AuthContext";
+import NewClientDrawer, { type newClient } from "../components/NewClientDrawer";
+import { toast } from "react-toastify";
+import Loader from "../../../components/ui/Loader";
 
 // Types
 interface Client {
@@ -32,13 +36,16 @@ const Clients: React.FC = () => {
   const [selectedStatus, setSelectedStatus] = useState<string>("all");
   const [selectedClient, setSelectedClient] = useState<Client | null>(null);
   const [showDrawer, setShowDrawer] = useState<boolean>(false);
+  const [showDrawerNew, setShowDrawerNew] = useState<boolean>(false);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage, setItemsPerPage] = useState<number>(5);
   const [sortBy, setSortBy] = useState<string>("name");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
   const [sousService, setSousService] = useState<string>("");
   const [isloading, setIsLoading] = useState<boolean>(true);
-  const serviceId = 1;
+  const [loader,setLoader] = useState<boolean>(false);
+   const { user } = React.useContext(AuthContext);
+  const serviceId = user ? Number(user.id) : null;
   // Données d'exemple
   const [clients, setClients] = useState<Client[]>([]);
   useEffect(()=>{
@@ -136,6 +143,7 @@ const Clients: React.FC = () => {
 
   const handleCloseDrawer = () => {
     setShowDrawer(false);
+    setShowDrawerNew(false);
     setSelectedClient(null);
   };
 
@@ -154,7 +162,7 @@ const Clients: React.FC = () => {
     };
     setClients((prev) => [...prev, newClient]);
     setSelectedClient(newClient);
-    setShowDrawer(true);
+    setShowDrawerNew(true);
   };
 
   const handleUpdateClient = (updatedClient: Client) => {
@@ -172,6 +180,26 @@ const Clients: React.FC = () => {
 
   const handleSave = (clientInfo: ClientInfo) => {
     console.log(clientInfo)
+  }
+  const handleSaveNew =(client:newClient)=>{
+      setLoader(true)
+      if(client.prenom.trim() === "" || client.nom.trim() === "" || client.telephone.trim() === ""){
+        toast.error("Veuillez remplir tous les champs")
+        setLoader(false)
+        return;
+      }
+      axios.post(`${import.meta.env.VITE_API_URL}/citoyen/register`,client)
+      .then(()=>{
+        toast.success("Cleint a été ajouté avec succès")
+        setShowDrawerNew(false)
+        setLoader(false)
+      }).catch((err)=>{
+        console.log(err)
+        toast.error("Une erreur s'est produite pendant l'enregistrement")
+        setShowDrawerNew(false)
+        setLoader(false)
+      })
+      
   }
   if(isloading){
     return <AppointmentsPageSkeleton/>
@@ -322,8 +350,14 @@ const Clients: React.FC = () => {
           onInfoUpdate={handleSave}
         />
       )}
+      { showDrawerNew && selectedClient && (
+        <NewClientDrawer
+          client={selectedClient}
+          onClose={handleCloseDrawer}
+          onSave={handleSaveNew}/>
+      )}
+      {loader &&(<Loader/>)}
     </div>
-  );
-};
+)};
 
 export default Clients;

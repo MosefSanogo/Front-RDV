@@ -114,7 +114,7 @@ const AppointmentsTable: React.FC<AppointmentsTableProps> = ({
                 </td>
                 <td>
                   <div className="client-cell">
-                    <div className="client-avatar">
+                    <div className="client-avatarA">
                       {appointment.fullName.split(' ').map(n => n[0]).join('')}
                     </div>
                     <div className="client-info">

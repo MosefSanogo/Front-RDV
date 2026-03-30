@@ -1,16 +1,33 @@
 import React, { useState } from 'react';
 import { Building2, Phone, Mail, MapPin, Upload, X } from 'lucide-react';
 import '../styles/generalSettings.css';
-const GeneralSettings: React.FC = () => {
-  const [formData, setFormData] = useState({
-    agencyName: 'Centre Médical Principal',
-    phone: '+223 76 00 00 00',
-    email: 'contact@centremedical.ml',
-    address: 'Avenue de l\'Indépendance, Bamako',
-    welcomeMessage: 'Veuillez arriver 10 minutes avant votre rendez-vous. Merci de présenter votre pièce d\'identité.'
+import { AuthContext } from '../../../contexts/AuthContext';
+export interface GeneralSettingsData {
+  id:number;
+  agencyName: string;
+  address: string;
+  phone: string;
+  email: string;
+  ville: string;
+  img: string | null;
+  category: string;
+  welcomeMessage: string;
+}
+const GeneralSettings: React.FC= () => {
+  const { user } = React.useContext(AuthContext);
+  const [formData, setFormData] = useState<GeneralSettingsData>({
+    id: Number(user?.id) || 0,
+    agencyName: user?.nom || 'Mon agence',
+    phone: user?.tel || '+223 XX XX XX XX',
+    email: user?.email || '',
+    address: user?.adresse || '',
+    ville: user?.ville || '',
+    img: user?.image_url || null,
+    category: user?.category || '',
+    welcomeMessage: user?.description || 'Bienvenue chez nous ! Merci de choisir notre service pour vos rendez-vous. Nous sommes impatients de vous accueillir et de vous offrir la meilleure expérience possible.',  
   });
 
-  const [logo, setLogo] = useState<string | null>(null);
+  const [logo, setLogo] = useState<string | null>(formData.img);
   const [isDragging, setIsDragging] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -23,6 +40,7 @@ const GeneralSettings: React.FC = () => {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
+        setFormData(prev => ({ ...prev, img: reader.result as string }));
         setLogo(reader.result as string);
       };
       reader.readAsDataURL(file);
@@ -74,7 +92,7 @@ const GeneralSettings: React.FC = () => {
           >
             {logo ? (
               <div className="logo-preview">
-                <img src={logo} alt="Logo" />
+                <img  src={`${import.meta.env.VITE_BASE_URL}/${formData.img}`}  alt="Logo" />
                 <button className="remove-logo" onClick={removeLogo}>
                   <X size={16} />
                 </button>

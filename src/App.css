@@ -9,3 +9,10 @@
   padding: 0 20px;
   height: 100%;
 }
+.app-main .css-1q505s5-MuiSkeleton-root,
+.app-main .css-1epbneo-MuiSkeleton-root,
+.app-main .css-1vejk87-MuiSkeleton-root,
+.app-main .css-1e8giav-MuiSkeleton-root,
+.app-main .css-r06cbe-MuiSkeleton-root {
+  background-color: var(--skeleton-bg);
+}

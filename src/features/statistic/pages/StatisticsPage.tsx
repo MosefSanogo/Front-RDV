@@ -27,10 +27,12 @@ import DispersionChart from "../../../components/ui/LineChart";
 import axios from "axios";
 import type { HourlyData, KPI, MonthlyTrend, Period, ServiceStat, Static } from "../types/StatisticType";
 import StatisticsPageSkeletonSimple from "../skeleton/StatisticSkeleton";
+import { AuthContext } from "../../../contexts/AuthContext";
 
 
 const StatisticsPage: React.FC = () => {
-  const serviceId = 1;
+  const { user } = React.useContext(AuthContext);
+  const serviceId = user ? Number(user.id) : null;
   const [selectedPeriod, setSelectedPeriod] = useState<Period["id"]>("day");
   const [selectedService, setSelectedService] = useState<string>("all");
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());

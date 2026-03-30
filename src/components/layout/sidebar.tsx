@@ -11,7 +11,9 @@ import {
   FiLogOut,
 } from "react-icons/fi";
 import { NavLink } from "react-router-dom";
+import { AuthContext } from "../../contexts/AuthContext";
 function Sidebar({ style }: { style?: React.CSSProperties }) {
+  const { logout } = React.useContext(AuthContext);
   const items = [
     { label: "Dashboard", icon: <FiHome />, link: "/dashboard" },
     { label: "Rendez-vous", icon: <FiCalendar />, link: "/appointements" },
@@ -21,11 +23,14 @@ function Sidebar({ style }: { style?: React.CSSProperties }) {
     { label: "Statistiques", icon: <FiBarChart2 />, link: "/statistics" },
     { label: "Paramètres", icon: <FiSettings />, link: "/settings" },
   ];
+  const handlelogout = () => {
+    logout();
+  };
   return (
     <div className="sidebar" style={style}>
       <div className="sidebar-header">
         <div className="logo">
-            MS
+            <span>MS</span>
         </div>
         <div className="logo-desc">
             <span className="logo-title">MaliRDV</span>
@@ -50,7 +55,7 @@ function Sidebar({ style }: { style?: React.CSSProperties }) {
         ))}
       </div>
 
-      <button className="log-out">
+      <button className="log-out" onClick={handlelogout}>
         <span className="logout-icon">
             <FiLogOut/>
         </span>

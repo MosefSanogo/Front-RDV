@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Clock, Copy, Save } from "lucide-react";
 import "../styles/businessHoursSettings.css";
 import { toast } from "react-toastify";
+import { sanitizeInput } from "../../../utils/Sanitize";
 export interface DaySchedule {
   id: string;
   day: string;
@@ -51,13 +52,13 @@ const BusinessHoursSettings: React.FC<BusinessHoursSettingsProps> = ({
     value: string,
   ) => {
     setSchedule((prev) =>
-      prev.map((day) => (day.id === dayId ? { ...day, [field]: value } : day)),
+      prev.map((day) => (day.id === dayId ? { ...day, [field]: sanitizeInput(value).value } : day)),
     );
   };
 
   const handleCapacityChange = (dayId: string, value: number) => {
     setSchedule((prev) =>
-      prev.map((day) => (day.id === dayId ? { ...day, capacity: value } : day)),
+      prev.map((day) => (day.id === dayId ? { ...day, capacity: sanitizeInput(value.toString(), 'number',{maxLength: 3}).value as number } : day)),
     );
   };
 
@@ -232,7 +233,7 @@ const BusinessHoursSettings: React.FC<BusinessHoursSettingsProps> = ({
                 <input
                   type="number"
                   min="1"
-                  max="20"
+                  max="100"
                   value={day.capacity}
                   onChange={(e) =>
                     handleCapacityChange(day.id, parseInt(e.target.value) || 1)

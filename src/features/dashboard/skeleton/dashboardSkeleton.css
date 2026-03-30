@@ -1,3 +1,6 @@
-.dashboard .css-kkcbhd-MuiSkeleton-root  {
+.app-main .css-kkcbhd-MuiSkeleton-root{
+  background-color: var(--skeleton-bg);
+}
+.app-main .css-1q505s5-MuiSkeleton-root{
   background-color: var(--skeleton-bg);
 }

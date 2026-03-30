@@ -84,7 +84,7 @@ const ClientDrawer: React.FC<ClientDrawerProps> = ({
     return `${diffMonths} mois`;
   };
 
-  const getStatusColor = (status: string) => {
+   const getStatusColor = (status: string) => {
     switch (status) {
       case "active":
         return "var(--success)";

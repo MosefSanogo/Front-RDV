@@ -1,5 +1,11 @@
 import "./App.css";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import Sidebar from "./components/layout/sidebar";
 import Dashboard from "./features/dashboard/pages/Dashboard";
 import AppointmentsPage from "./features/appointement/pages/Appointement";
@@ -9,41 +15,94 @@ import Creneaux from "./features/creneaux/pages/Creneaux";
 import Clients from "./features/clients/pages/Clients";
 import StatisticsPage from "./features/statistic/pages/StatisticsPage";
 import SettingsPage from "./features/settings/pages/SettingsPage";
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer } from "react-toastify";
+import { useState } from "react";
+import { AuthContext, type Service } from "./contexts/AuthContext";
+import LandingPage from "./pages/LandingPage/LandingPage";
+import LoginPage from "./pages/login/Login";
+import RegisterPage from "./pages/register/Register";
+import PrivateRoute from "./contexts/PrivateRoute";
 
-function App() {
+// ✅ Composant enfant — à l'INTÉRIEUR de BrowserRouter
+// useLocation() fonctionne ici car ce composant est rendu sous <BrowserRouter>
+function AppLayout() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const hideSidebarRoutes: string[] = ["/", "/login", "/register"];
+  const shouldHideSidebar: boolean = hideSidebarRoutes.includes(
+    location.pathname,
+  );
+  const [isAuth, setIsAuth] = useState(!!localStorage.getItem("token"));
+  const [user, setUser] = useState<Service | null>(() => {
+    const storedUser = localStorage.getItem("service");
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
+  const login = (data: Service) => {
+    setIsAuth(true);
+    setUser(data);
+  };
+  const logout = () => {
+    setIsAuth(false);
+    localStorage.removeItem("token");
+    localStorage.removeItem("service");
+    localStorage.removeItem("rememberMe");
+    localStorage.removeItem("email"); 
+    navigate("/");
+  };
+
   return (
-    <BrowserRouter>
+    <AuthContext.Provider value={{ isAuth, login, logout, user, setUser }}>
       <div className="app">
-        <div className="app-sidebar">
-          <Sidebar />
-        </div>
-        <div className="app-main">
+        {!shouldHideSidebar && (
+          <div className="app-sidebar">
+            <Sidebar />
+          </div>
+        )}
+        <div
+          className="app-main"
+          style={shouldHideSidebar ? { marginLeft: "0" } : undefined}
+        >
           <Routes>
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/appointements" element={<AppointmentsPage />} />
-            <Route path="/services" element={<ServicesPage />} />
-            <Route path="/services/schedule/:id" element={<SheduleManagerPage />} />
-            <Route path="/slots" element={<Creneaux/>} />
-            <Route path="/clients" element={<Clients />} />
-            <Route path="/statistics" element={<StatisticsPage />} />
-            <Route path="/settings" element={<SettingsPage />} />
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
+            <Route path="/appointements" element={<PrivateRoute><AppointmentsPage /></PrivateRoute>} />
+            <Route path="/services" element={<PrivateRoute><ServicesPage /></PrivateRoute>} />
+            <Route
+              path="/services/schedule/:id"
+              element={<PrivateRoute><SheduleManagerPage /></PrivateRoute>}
+            />
+            <Route path="/slots" element={<PrivateRoute><Creneaux /></PrivateRoute>} />
+            <Route path="/clients" element={<PrivateRoute><Clients /></PrivateRoute>} />
+            <Route path="/statistics" element={<PrivateRoute><StatisticsPage /></PrivateRoute>} />
+            <Route path="/settings" element={<PrivateRoute><SettingsPage /></PrivateRoute>} />
+            
           </Routes>
         </div>
         <ToastContainer
-            position="top-right"
-            autoClose={3000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="light"
-          />
+          position="top-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
       </div>
-    </BrowserRouter>
+    </AuthContext.Provider>
+  );
+}
+
+// ✅ App — contient BrowserRouter et AuthContext uniquement
+function App() {
+  return (
+      <BrowserRouter>
+        <AppLayout /> {/* useLocation() accessible ici ✅ */}
+      </BrowserRouter>
   );
 }
 

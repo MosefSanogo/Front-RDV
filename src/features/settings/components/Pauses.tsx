@@ -2,44 +2,49 @@ import React, { useState } from "react";
 import { CalendarX, Plus, Trash2, AlertCircle, Save } from "lucide-react";
 import "../styles/holidaysSettings.css";
 import { sanitizeInput } from "../../../utils/Sanitize";
-export interface Holiday {
+import type { SousService } from "./BusinessHoursSettings";
+export interface Pauses {
   id: string;
-  date: string;
-  label: string;
-  type: "full" | "half";
+  heure_debut: string;
+  heure_fin: string;
+  sous_service_id: string;
+  sous_service_name?: string
 }
 interface HolidaysSettingsProps {
-  onSave: (data: Holiday) => void;
+  onSave: (data: Pauses) => void;
   loading?: boolean;
-  data: Holiday[];
+  data: Pauses[];
+  sousServices: SousService[]
   onAction?: (id: string) => void;
+
 }
 
-const HolidaysSettings: React.FC<HolidaysSettingsProps> = ({
+const PausesSettings: React.FC<HolidaysSettingsProps> = ({
   onSave,
   loading,
   data = [],
+  sousServices= [],
   onAction
 }) => {
-  const [holidays] = useState<Holiday[]>(data);
+  const [holidays] = useState<Pauses[]>(data);
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [formData, setFormData] = useState({
-    date: "",
-    label: "",
-    type: "full" as "full" | "half",
+    heure_debut: "",
+    heure_fin: "",
+    sous_service_id: "",
   });
   const handleSave = () => {
-      const newHoliday: Holiday = {
+      const newHoliday: Pauses = {
         id: Date.now().toString(),
         ...formData,
       };
       onSave(newHoliday);
     
-    setFormData({ date: "", label: "", type: "full" });
+    setFormData({ heure_debut: "", heure_fin: "", sous_service_id: "" });
   };
   const handleAdd = () => {
-    if (!formData.date || !formData.label) return;
+    if (!formData.sous_service_id || !formData.heure_debut || !formData.heure_fin) return;
     setShowForm(false);
   };
 
@@ -53,7 +58,7 @@ const HolidaysSettings: React.FC<HolidaysSettingsProps> = ({
       <div className="holidays-header">
         <h2 className="section-title">
           <CalendarX size={20} />
-          Dates chômées et fermetures
+          Horaires des pauses
         </h2>
 
         <div className="header-actions">
@@ -81,7 +86,7 @@ const HolidaysSettings: React.FC<HolidaysSettingsProps> = ({
         <div className="info-text">
           <strong>Comment ça fonctionne ?</strong>
           <p>
-            Les dates ajoutées ici seront exclues de la génération automatique
+            Les horaires ajoutées ici seront exclues de la génération automatique
             des créneaux.
           </p>
         </div>
@@ -91,55 +96,54 @@ const HolidaysSettings: React.FC<HolidaysSettingsProps> = ({
       {!showForm ? (
         <button className="add-btn" onClick={() => setShowForm(true)}>
           <Plus size={16} />
-          Ajouter une date chômée
+          Ajouter un intervalle de pause
         </button>
       ) : (
         <div className="form-card">
-          <h3>{editingId ? "Modifier" : "Nouvelle"} date chômée</h3>
+          <h3>{editingId ? "Modifier" : "Nouvelle"} horaire de pause</h3>
 
           <div className="form-grid">
             <div className="form-group">
-              <label htmlFor="date">Date</label>
+              <label htmlFor="date">Heure de début</label>
               <input
-                type="date"
+                type="time"
                 id="date"
-                value={formData.date}
+                value={formData.heure_debut}
                 onChange={(e) =>
-                  setFormData({ ...formData, date: e.target.value })
+                  setFormData({ ...formData, heure_debut: e.target.value })
                 }
                 className="form-input"
               />
             </div>
 
             <div className="form-group">
-              <label htmlFor="label">Motif</label>
+              <label htmlFor="label">Heure de fin</label>
               <input
-                type="text"
+                type="time"
                 id="label"
-                value={formData.label}
+                value={formData.heure_fin}
                 onChange={(e) =>
-                  setFormData({ ...formData, label: sanitizeInput(e.target.value).value as string })
+                  setFormData({ ...formData, heure_fin: sanitizeInput(e.target.value).value as string })
                 }
-                placeholder="Ex: Jour de l'an, Maintenance..."
                 className="form-input"
               />
             </div>
 
             <div className="form-group">
-              <label htmlFor="type">Type</label>
+              <label htmlFor="type">Sous service</label>
               <select
                 id="type"
-                value={formData.type}
+                value={formData.sous_service_id}
                 onChange={(e) =>
                   setFormData({
                     ...formData,
-                    type: e.target.value as "full" | "half",
+                    sous_service_id: e.target.value,
                   })
                 }
                 className="form-select"
-              >
-                <option value="full">Journée complète</option>
-                <option value="half">Demi-journée</option>
+              > 
+                <option disabled>Selectionnez un sous service</option>
+                {sousServices.map((item,i)=>(<option value={item.id} key={i}>{item.nom}</option>))}
               </select>
             </div>
           </div>
@@ -150,7 +154,7 @@ const HolidaysSettings: React.FC<HolidaysSettingsProps> = ({
               onClick={() => {
                 setShowForm(false);
                 setEditingId(null);
-                setFormData({ date: "", label: "", type: "full" });
+                setFormData({ heure_debut: "", heure_fin: "", sous_service_id: "" });
               }}
             >
               Annuler
@@ -158,7 +162,7 @@ const HolidaysSettings: React.FC<HolidaysSettingsProps> = ({
             <button
               className="btn primary"
               onClick={handleAdd}
-              disabled={!formData.date || !formData.label}
+              disabled={!formData.heure_debut || !formData.heure_fin || !formData.sous_service_id}
             >
               {"Ajouter"}
             </button>
@@ -170,26 +174,24 @@ const HolidaysSettings: React.FC<HolidaysSettingsProps> = ({
       {holidays.length > 0 ? (
         <div className="holidays-list">
           <div className="list-header">
-            <div className="header-cell">Date</div>
-            <div className="header-cell">Motif</div>
-            <div className="header-cell">Type</div>
+            <div className="header-cell">Sous service</div>
+            <div className="header-cell">Heure de debut</div>
+            <div className="header-cell">heure de fin</div>
             <div className="header-cell actions-cell">Actions</div>
           </div>
 
           {holidays.map((holiday) => (
             <div key={holiday.id} className="list-item">
               <div className="item-cell">
-                <span className="date-badge">{holiday.date}</span>
-              </div>
-              <div className="item-cell">
-                <span className="holiday-label">{holiday.label}</span>
-              </div>
-              <div className="item-cell">
-                <span className={`type-badge ${holiday.type}`}>
-                  {holiday.type === "full"
-                    ? "Journée complète"
-                    : "Demi-journée"}
+                <span className={`holiday-label`}>
+                  { holiday.sous_service_name}
                 </span>
+              </div>  
+              <div className="item-cell">
+                <span className="holiday-label">{holiday.heure_debut}</span>
+              </div>
+              <div className="item-cell">
+                <span className="holiday-label">{holiday.heure_fin}</span>
               </div>
               <div className="item-cell actions-cell">
                 <button
@@ -204,11 +206,11 @@ const HolidaysSettings: React.FC<HolidaysSettingsProps> = ({
         </div>
       ) : (
         <div className="empty-state">
-          <p>Aucune date chômée configurée</p>
+          <p>Aucune horaire configurée</p>
         </div>
       )}
     </div>
   );
 };
 
-export default HolidaysSettings;
+export default PausesSettings;

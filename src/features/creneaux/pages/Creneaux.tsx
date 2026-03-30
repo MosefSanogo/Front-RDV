@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import SlotsCard from "../components/SlotsAvalaible";
 import "./creneaux.css";
 import Tooltip from "@mui/material/Tooltip";
@@ -6,6 +6,7 @@ import IconButton from "@mui/material/IconButton";
 import { Calendar, ChevronLeft, ChevronRight } from "lucide-react";
 import axios from "axios";
 import CreneauxPageSkeleton from "../skeleton/CreneauxSkeleton";
+import { AuthContext } from "../../../contexts/AuthContext";
 function Creneaux() {
 
   const [selectedDate, setSelectedDate] = useState<Date>(new Date(localStorage.getItem("creneauDate") || new Date()));
@@ -13,7 +14,8 @@ function Creneaux() {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [timeSlots, setTimeSlots] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const serviceId = 1; // Remplacez par l'ID de votre service
+  const { user } = useContext(AuthContext);
+  const serviceId = user ? Number(user.id) : null; // Remplacez par l'ID de votre service
     const sousService = 0;
     useEffect(() => {
       axios

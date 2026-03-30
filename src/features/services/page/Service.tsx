@@ -30,6 +30,7 @@ import { toast } from "react-toastify";
 import DeleteConfirmationModal from "../../../components/ui/DeleteConfirmationModal";
 import AppointmentsPageSkeleton from "../../appointement/skeleton/AppointementSkeleton";
 import { useSecureInput } from "../../../utils/Sanitize";
+import { AuthContext } from "../../../contexts/AuthContext";
 
 const ServicesPage: React.FC = () => {
   const [services, setServices] = useState<SubService[]>([]);
@@ -45,7 +46,8 @@ const ServicesPage: React.FC = () => {
     category: "Santé",
     status: "active",
   });
-  const serviceId = 1;
+   const { user } = React.useContext(AuthContext);
+  const serviceId = user ? Number(user.id) : null;
   useEffect(() => {
     axios
       .get(
@@ -178,7 +180,6 @@ const ServicesPage: React.FC = () => {
       })
     }
     setShowServiceModal(false);
-    console.log(serviceData.map(item=>item.nom))
   };
 
   // Filtrage
