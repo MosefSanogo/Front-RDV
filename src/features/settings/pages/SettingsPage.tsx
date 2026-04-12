@@ -12,13 +12,14 @@ import {
 } from "lucide-react";
 
 import "../styles/settingsPage.css";
-import GeneralSettings, { type GeneralSettingsData } from "../components/GeneralSettings";
+import GeneralSettings, {
+  type GeneralSettingsData,
+} from "../components/GeneralSettings";
 import BusinessHoursSettings, {
   type DaySchedule,
 } from "../components/BusinessHoursSettings";
 import HolidaysSettings, { type Holiday } from "../components/HolidaysSettings";
 import RulesSettings, { type Rule } from "../components/RulesSettings";
-import CapacitySettings from "../components/CapacitySettings";
 import axios from "axios";
 import { toast } from "react-toastify";
 import Loader from "../../../components/ui/Loader";
@@ -28,21 +29,27 @@ import type { Pauses } from "../components/Pauses";
 import PausesSettings from "../components/Pauses";
 
 const SettingsPage: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<string>("general");
+  const [activeTab, setActiveTab] = useState<string>(
+    localStorage.getItem("activeTab") || "general",
+  );
   const [isSaving, setIsSaving] = useState<boolean>(false);
   const [holidays, setHolidays] = useState<Holiday[]>([]);
   const [rules, setRules] = useState<Rule>({} as Rule);
-  const [subServices, setSubServices] = useState<{ id: string; nom: string }[]>([]);
-  const [serviceInfo, setServiceInfo] = useState<GeneralSettingsData >({} as GeneralSettingsData);
+  const [subServices, setSubServices] = useState<{ id: string; nom: string }[]>(
+    [],
+  );
+  const [serviceInfo, setServiceInfo] = useState<GeneralSettingsData>(
+    {} as GeneralSettingsData,
+  );
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
   const [deletingId, setDeletingId] = useState<string>("");
+  const [pauses, setPauses] = useState<Pauses[]>([]);
   const tabs = [
     { id: "general", label: "Général", icon: Building2 },
     { id: "hours", label: "Horaires", icon: Clock },
-    { id: "capacity", label: "Capacité", icon: Users },
     { id: "holidays", label: "Jours chômés", icon: CalendarX },
     { id: "rules", label: "Règles", icon: Calendar },
-    {id: "pause",label:"Pauses", icon:CalendarOff},
+    { id: "pause", label: "Pauses", icon: CalendarOff },
     /*{ id: "notifications", label: "Notifications", icon: Bell },*/
     { id: "security", label: "Sécurité", icon: Shield },
   ];
@@ -61,6 +68,9 @@ const SettingsPage: React.FC = () => {
         .then(() => {
           setIsSaving(false);
           toast.success("Jour férié enregistré avec succès !");
+          setTimeout(() => {
+            window.location.reload();
+          }, 500);
         })
         .catch((error) => {
           console.error("Error saving holiday:", error);
@@ -84,6 +94,9 @@ const SettingsPage: React.FC = () => {
         .then(() => {
           setIsSaving(false);
           toast.success("Intervalle de pause enregistré avec succès !");
+          setTimeout(() => {
+            window.location.reload();
+          }, 500);
         })
         .catch((error) => {
           console.error("Error saving holiday:", error);
@@ -109,6 +122,9 @@ const SettingsPage: React.FC = () => {
         .then(() => {
           setIsSaving(false);
           toast.success("Règles enregistrées avec succès !");
+          setTimeout(() => {
+            window.location.reload();
+          }, 500);
         })
         .catch((error) => {
           console.error("Error saving rules:", error);
@@ -122,7 +138,7 @@ const SettingsPage: React.FC = () => {
   const handleSaveHours = useCallback(
     (data: DaySchedule[], subServiceId: string) => {
       setIsSaving(true);
-      
+
       const payload = data.map((d) => ({
         service_id: serviceId,
         sous_service_id: Number(subServiceId),
@@ -131,7 +147,7 @@ const SettingsPage: React.FC = () => {
         heure_fin: d.closeTime,
         capacity_heure: d.capacity,
       }));
-      console.log(payload)
+      console.log(payload);
       axios
         .post(
           `${import.meta.env.VITE_API_URL}/horaire-travail/register`,
@@ -140,6 +156,9 @@ const SettingsPage: React.FC = () => {
         .then(() => {
           setIsSaving(false);
           toast.success("Horaires enregistrés avec succès !");
+          setTimeout(() => {
+            window.location.reload();
+          }, 500);
         })
         .catch((error) => {
           console.error("Error saving hours:", error);
@@ -157,6 +176,17 @@ const SettingsPage: React.FC = () => {
       )
       .then((response) => {
         setHolidays(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching holidays:", error);
+      });
+  }, [serviceId]);
+
+  useEffect(() => {
+    axios
+      .get(`${import.meta.env.VITE_API_URL}/pauses/getAllPauses/${serviceId}`)
+      .then((response) => {
+        setPauses(response.data);
       })
       .catch((error) => {
         console.error("Error fetching holidays:", error);
@@ -204,25 +234,38 @@ const SettingsPage: React.FC = () => {
     setShowDeleteModal(true);
     setDeletingId(id);
   };
-  
- 
 
-  const handleDelete = () => {
-    axios.delete(`${import.meta.env.VITE_API_URL}/jour-ferie/delete/${deletingId}`)
-    .then(() => {
-      setHolidays((prev) => prev.filter((h) => h.id !== deletingId));
-      setShowDeleteModal(false);
-      toast.success("Jour férié supprimé avec succès !");
-      setTimeout(() => {
-        window.location.reload();
-      }, 500);
-    })
-    .catch((error) => {
-      console.error("Error deleting holiday:", error);
-      setShowDeleteModal(false);
-      toast.error("Erreur lors de la suppression du jour férié.");
-    });
-  }
+  const handleDelete = (type: string) => {
+    console.log("avant :" + pauses);
+    const url =
+      type === "holiday"
+        ? `${import.meta.env.VITE_API_URL}/jour-ferie/delete/${deletingId}`
+        : `${import.meta.env.VITE_API_URL}/pauses/deletePause/${deletingId}`;
+    axios
+      .delete(url)
+      .then(() => {
+        if (type === "holiday") {
+          setHolidays((prev) => prev.filter((h) => h.id !== deletingId));
+          toast.success("Jour férié supprimé avec succès !");
+        } else {
+          setPauses((prev) => {
+            const filtered = prev.filter((p) => Number(p.id) !== Number(deletingId));
+            console.log("Avant:", prev);
+            console.log("Après:", filtered);
+            return filtered;
+          });
+          toast.success("Intervalle de pause supprimé avec succès !");
+        }
+        setShowDeleteModal(false);
+      })
+      .catch((error) => {
+        console.error("Error deleting holiday:", error);
+        setShowDeleteModal(false);
+        toast.error("Erreur lors de la suppression du jour férié.");
+      });
+
+    console.log("apres" + pauses);
+  };
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -235,14 +278,25 @@ const SettingsPage: React.FC = () => {
             subServices={subServices}
           />
         );
-      case "capacity":
-        return <CapacitySettings />;
       case "holidays":
-        return <HolidaysSettings onSave={handleSaveHolidays} data={holidays} onAction={handleDeleteService}/>;
+        return (
+          <HolidaysSettings
+            onSave={handleSaveHolidays}
+            data={holidays}
+            onAction={handleDeleteService}
+          />
+        );
       case "rules":
         return <RulesSettings onSave={handleSaveRules} data={rules} />;
       case "pause":
-        return <PausesSettings data={[]}onSave={handleSavePauses} sousServices={subServices} onAction={handleDelete} /> 
+        return (
+          <PausesSettings
+            data={pauses}
+            onSave={handleSavePauses}
+            sousServices={subServices}
+            onAction={handleDeleteService}
+          />
+        );
       case "security":
         return <div className="coming-soon">Module Sécurité (à venir)</div>;
       default:
@@ -275,7 +329,10 @@ const SettingsPage: React.FC = () => {
                 <button
                   key={tab.id}
                   className={`tab-btn ${activeTab === tab.id ? "active" : ""}`}
-                  onClick={() => setActiveTab(tab.id)}
+                  onClick={() => {
+                    setActiveTab(tab.id);
+                    localStorage.setItem("activeTab", tab.id);
+                  }}
                 >
                   <Icon size={18} />
                   <span>{tab.label}</span>
@@ -305,7 +362,12 @@ const SettingsPage: React.FC = () => {
         isOpen={showDeleteModal}
         onClose={() => setShowDeleteModal(false)}
         onConfirm={handleDelete}
-        title="Supprimer ce service ?"
+        title={
+          activeTab === "holidays"
+            ? "Supprimer ce jour férié ?"
+            : "Supprimer cet intervalle de pause ?"
+        }
+        type={activeTab === "holidays" ? "holiday" : "pause"}
       />
     </div>
   );

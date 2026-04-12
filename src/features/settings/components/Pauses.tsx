@@ -26,7 +26,6 @@ const PausesSettings: React.FC<HolidaysSettingsProps> = ({
   sousServices= [],
   onAction
 }) => {
-  const [holidays] = useState<Pauses[]>(data);
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [formData, setFormData] = useState({
@@ -171,7 +170,7 @@ const PausesSettings: React.FC<HolidaysSettingsProps> = ({
       )}
 
       {/* Liste des dates */}
-      {holidays.length > 0 ? (
+      {data.length > 0 ? (
         <div className="holidays-list">
           <div className="list-header">
             <div className="header-cell">Sous service</div>
@@ -180,7 +179,7 @@ const PausesSettings: React.FC<HolidaysSettingsProps> = ({
             <div className="header-cell actions-cell">Actions</div>
           </div>
 
-          {holidays.map((holiday) => (
+          {data.map((holiday) => (
             <div key={holiday.id} className="list-item">
               <div className="item-cell">
                 <span className={`holiday-label`}>

@@ -5,10 +5,11 @@ import './DeleteConfirmationModal.css';
 interface DeleteConfirmationModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onConfirm: () => void;
+  onConfirm: (type: string) => void;
   title?: string;
   message?: string;
   isLoading?: boolean;
+  type: 'service' | 'sous-service' | 'employee' | 'holiday' | 'appointment' | 'pause';
 }
 
 const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
@@ -17,7 +18,8 @@ const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
   onConfirm,
   title = "Confirmer la suppression",
   message,
-  isLoading = false
+  isLoading = false,
+  type,
 }) => {
 
   useEffect(() => {
@@ -83,7 +85,7 @@ const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
           </button>
           <button 
             className="btn delete-btn" 
-            onClick={onConfirm}
+            onClick={() => onConfirm(type)}
             disabled={isLoading}
             type='button'
           >

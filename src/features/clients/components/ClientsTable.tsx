@@ -76,6 +76,7 @@ const ClientsTable: React.FC<ClientsTableProps> = ({
               <button 
                 className="sort-header"
                 onClick={() => onSort('name')}
+                title='sort'
               >
                 Nom complet
                 {sortBy === 'name' && (
@@ -180,6 +181,7 @@ const ClientsTable: React.FC<ClientsTableProps> = ({
                   className="view-btn"
                   onClick={() => onViewClient(client,client.services[client.services.length-1] || "")}
                   title="Voir le détail"
+                  data-testId={`view-btn-${client.id}`}
                 >
                   <Eye size={16} />
                   <span>Voir</span>

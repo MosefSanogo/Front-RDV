@@ -8,10 +8,10 @@ import { AlertCircle, ArrowLeftIcon } from "lucide-react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import ScheduleManagerSkeleton from "../skeleton/SheduleManagerSkeleton";
+import { toast } from "react-toastify";
 
 function SheduleManagerPage() {
   const [schedule, setSchedule] = useState<Schedule[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
   const [isloading, setIsLoading] = useState<boolean>(true);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const sousServiceId = useParams<{ id: string }>().id;
@@ -22,37 +22,33 @@ function SheduleManagerPage() {
       )
       .then((response) => {
         setSchedule(response.data);
-        setLoading(false);
         setIsLoading(false);
       })
       .catch((error) => {
         console.error("Erreur lors du chargement des horaires :", error);
-        setLoading(false);
         setIsLoading(false);
       });
   }, [sousServiceId]);
 
   const handleUpdateSchedule = (id: string, updates: Partial<Schedule>) => {
     setIsEditing(true);
-    setSchedule((prev) =>
-      prev.map((s) => (s.id === id ? { ...s, ...updates } : s)),
-    );
+
+    try {
+      axios.patch(
+        `${import.meta.env.VITE_API_URL}/horaire-travail/update/${id}`,
+        updates,
+      );
+      setSchedule((prev) =>
+        prev.map((s) => (s.id === id ? { ...s, ...updates } : s)),
+      );
+      toast.success("Colonne a été modifiée avec succès")
+    } catch (error) {
+      console.log(error);
+    }
   };
-  const handleSave = () => {
-    console.log("Horaires sauvegardés :", schedule);
-    setIsEditing(false);
-  };
+
   const handleBack = () => {
     window.history.back();
-    if (isEditing) {
-      if (
-        !window.confirm(
-          "Vous avez des modifications non enregistrées. Voulez-vous vraiment quitter ?",
-        )
-      ) {
-        return;
-      }
-    }
   };
   if (isloading) {
     return <ScheduleManagerSkeleton />;
@@ -77,7 +73,6 @@ function SheduleManagerPage() {
         <ScheduleManager
           schedule={schedule}
           onUpdate={handleUpdateSchedule}
-          onSave={handleSave}
           isEditing={isEditing}
         />
       )}

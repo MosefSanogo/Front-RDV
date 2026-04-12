@@ -1,5 +1,3 @@
-import { Save } from "lucide-react";
-
 interface Schedule {
   id: string;
   day: string;
@@ -11,14 +9,11 @@ interface Schedule {
 interface ScheduleManagerProps {
   schedule: Schedule[];
   onUpdate: (id: string, updates: Partial<Schedule>) => void;
-  onSave?: () => void;
   isEditing?: boolean;
 }
 const ScheduleManager: React.FC<ScheduleManagerProps> = ({
   schedule,
   onUpdate,
-  onSave: handleSave,
-  isEditing = false,
 }) => {
   return (
     <div className="schedule-manager">
@@ -103,14 +98,6 @@ const ScheduleManager: React.FC<ScheduleManagerProps> = ({
             </div>
           ))}
         </div>
-        {isEditing && (
-        <div className="footer-actions">
-          <button className="btn primary" onClick={handleSave}>
-            <Save size={16} />
-            Enregistrer les modifications
-          </button>
-        </div>
-      )}
       </div>
     </div>
   );

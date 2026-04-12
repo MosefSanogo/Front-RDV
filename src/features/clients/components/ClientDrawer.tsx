@@ -144,7 +144,7 @@ const ClientDrawer: React.FC<ClientDrawerProps> = ({
                 </button>
               </>
             )}
-            <button className="close-btn" onClick={onClose}>
+            <button className="close-btn" onClick={onClose} data-testid="close-btn">
               <X size={20} />
             </button>
           </div>
