@@ -32,7 +32,18 @@ function SheduleManagerPage() {
 
   const handleUpdateSchedule = (id: string, updates: Partial<Schedule>) => {
     setIsEditing(true);
-
+    const updatedSchedule = schedule.map((s) =>
+      s.id === id ? { ...s, ...updates } : s,
+    );
+    setSchedule(updatedSchedule);
+    const updatedEntry = updatedSchedule.find((s) => s.id === id);
+    if (updatedEntry) {
+      if (updatedEntry?.startTime >= updatedEntry?.endTime) {
+        toast.error("L'heure de début doit être inférieure à l'heure de fin");
+        setIsEditing(false);
+        return;
+      }
+    }
     try {
       axios.patch(
         `${import.meta.env.VITE_API_URL}/horaire-travail/update/${id}`,
@@ -41,7 +52,7 @@ function SheduleManagerPage() {
       setSchedule((prev) =>
         prev.map((s) => (s.id === id ? { ...s, ...updates } : s)),
       );
-      toast.success("Colonne a été modifiée avec succès")
+      toast.success("Colonne a été modifiée avec succès");
     } catch (error) {
       console.log(error);
     }

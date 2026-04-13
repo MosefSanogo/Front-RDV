@@ -41,7 +41,7 @@ const NewClientDrawer: React.FC<NewClientProps> = ({
               <Save size={15} />
               Enregistrer
             </button>
-            <button className="close-btn" onClick={onClose}>
+            <button className="close-btn" onClick={onClose} data-testid="close-btn">
               <X size={20} />
             </button>
           </div>

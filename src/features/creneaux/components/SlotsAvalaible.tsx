@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import DatePickerValue from "../../../components/ui/DatePicker";
 
-interface TimeSlot {
+export interface TimeSlot {
   id: number;
   time: string; // Format: "08:00", "09:00", etc.
   capacity: number;
@@ -20,12 +20,12 @@ interface TimeSlot {
   isCompleted: boolean;
 }
 
-interface TimeSlotsCardProps {
+export interface TimeSlotsCardProps {
   value: Date | null;
   onDateChange: (date: Date) => void;
   timeSlots?: TimeSlot[];
   isLoading?: boolean;
-  localName: string
+  localName: string;
 }
 
 const SlotsCard: React.FC<TimeSlotsCardProps> = ({
@@ -33,7 +33,7 @@ const SlotsCard: React.FC<TimeSlotsCardProps> = ({
   onDateChange,
   timeSlots = [],
   isLoading = false,
-  localName
+  localName,
 }) => {
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [filter, setFilter] = useState<
@@ -112,7 +112,11 @@ const SlotsCard: React.FC<TimeSlotsCardProps> = ({
       <div className="time-slots-header">
         <div className="header-left">
           <div className="title-section">
-              <DatePickerValue value={value} onDateChange={onDateChange} name={localName}/>
+            <DatePickerValue
+              value={value}
+              onDateChange={onDateChange}
+              name={localName}
+            />
           </div>
           <div className="summary-stats">
             <div className="stat-item">
@@ -170,12 +174,12 @@ const SlotsCard: React.FC<TimeSlotsCardProps> = ({
       {/* Time Slots Grid - Maintenant regroupé par heures */}
       <div className="time-slots-grid">
         {isLoading ? (
-          <div className="loading-state">
+          <div className="loading-state" data-testId="loader">
             <Loader2 size={32} className="spinner" />
             <p>Chargement des créneaux...</p>
           </div>
         ) : filteredSlots.length === 0 ? (
-          <div className="empty-state">
+          <div className="empty-state" data-testId="empty-value">
             <AlertCircle size={48} />
             <h3>Aucun créneau disponible</h3>
             <p>Aucun créneau ne correspond aux filtres sélectionnés</p>
@@ -193,6 +197,7 @@ const SlotsCard: React.FC<TimeSlotsCardProps> = ({
                   onClick={() => {
                     setSelectedTime(slot.time);
                   }}
+                  data-testId={`hour-slot`}
                 >
                   {/* Heure en grand */}
                   <div className="hour-display">

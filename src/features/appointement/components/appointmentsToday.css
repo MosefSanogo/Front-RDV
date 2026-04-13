@@ -359,7 +359,7 @@
   border-color: rgba(31, 146, 84, 0.2);
 }
 
-.status.en-attente {
+.status.pending {
   background: linear-gradient(135deg, rgba(178, 106, 0, 0.15) 0%, rgba(178, 106, 0, 0.08) 100%);
   color: var(--warning);
   border-color: rgba(178, 106, 0, 0.2);

@@ -14,6 +14,11 @@ export default function AppointmentsToday({
 }: {
   appointments: Appointment[];
 }) {
+  const status = {
+    "PENDING": "En attente",
+    "CONFIRMED": "Confirmé",
+    "CANCELLED": "Annulé",
+  };
   return (
     <div className="appointments-card">
       <div className="appointments-header">
@@ -45,7 +50,9 @@ export default function AppointmentsToday({
                 <td>{rdv.client}</td>
                 <td>{rdv.service}</td>
                 <td>
-                  <span className={`status ${rdv.statut}`}>{rdv.statut}</span>
+                  <span className={`status ${rdv.statut.toUpperCase() === "PENDING" ? "pending" : rdv.statut === "CONFIRMED" ? "confirmed" : "cancelled"}`}>
+                    {status[rdv.statut.toUpperCase() as keyof typeof status]}
+                  </span>
                 </td>
               </tr>
             ))}

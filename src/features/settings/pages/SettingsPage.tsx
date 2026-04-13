@@ -163,7 +163,7 @@ const SettingsPage: React.FC = () => {
         .catch((error) => {
           console.error("Error saving hours:", error);
           setIsSaving(false);
-          toast.error("Erreur lors de l'enregistrement des horaires.");
+          toast.error(error.response?.data?.message || "Erreur lors de l'enregistrement des horaires.");
         });
     },
     [serviceId],
@@ -349,7 +349,7 @@ const SettingsPage: React.FC = () => {
               <Globe size={16} />
               <div className="info-content">
                 <span className="info-label">Version</span>
-                <span className="info-value">2.1.0</span>
+                <span className="info-value">1.0.0</span>
               </div>
             </div>
           </div>

@@ -93,7 +93,7 @@ const GeneralSettings: React.FC= () => {
             {logo ? (
               <div className="logo-preview">
                 <img  src={`${import.meta.env.VITE_BASE_URL}/${formData.img}`}  alt="Logo" />
-                <button className="remove-logo" onClick={removeLogo}>
+                <button className="remove-logo" onClick={removeLogo} disabled>
                   <X size={16} />
                 </button>
               </div>
@@ -130,6 +130,7 @@ const GeneralSettings: React.FC= () => {
             onChange={handleInputChange}
             placeholder="Ex: Centre Médical Principal"
             className="form-input"
+            disabled
           />
         </div>
 
@@ -147,6 +148,7 @@ const GeneralSettings: React.FC= () => {
             onChange={handleInputChange}
             placeholder="+223 XX XX XX XX"
             className="form-input"
+            disabled
           />
         </div>
 
@@ -164,6 +166,7 @@ const GeneralSettings: React.FC= () => {
             onChange={handleInputChange}
             placeholder="contact@agence.ml"
             className="form-input"
+            disabled
           />
         </div>
 
@@ -181,6 +184,7 @@ const GeneralSettings: React.FC= () => {
             onChange={handleInputChange}
             placeholder="Adresse complète"
             className="form-input"
+            disabled
           />
         </div>
 
@@ -196,7 +200,8 @@ const GeneralSettings: React.FC= () => {
             onChange={handleInputChange}
             placeholder="Instructions, informations importantes..."
             className="form-textarea"
-            rows={4}
+            rows={2}
+            disabled
           />
           <p className="help-text">
             Ce message sera visible par les clients lors de la confirmation de rendez-vous
