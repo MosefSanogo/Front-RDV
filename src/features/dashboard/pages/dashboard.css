@@ -44,3 +44,25 @@
   border: 1px solid var(--border-default);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
+@media (max-width: 1420px) {
+  .dashboard{
+    padding: 1.5rem;
+    padding-bottom: 2.5rem;
+    width: 100%;
+  }
+  .dashboard-header h1{
+    font-size: 24px;
+  }
+  .dashboard-appointments-today {
+        grid-template-columns: 1fr;
+    }
+
+  .appointments-placeholder{
+    width: 100%;
+  }  
+}
+@media (max-width: 768px) {
+  .dashboard-appointments-today {
+    grid-template-columns: 1fr;
+  }
+}

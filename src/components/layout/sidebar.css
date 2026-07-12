@@ -112,3 +112,129 @@
    .log-out:hover{
     background: var(--btn-danger-hover);  
   }
+
+/* ==========================================================================
+   MEDIA QUERIES (Adaptation de 1420px aux mobiles)
+   ========================================================================== */
+
+/* 1. Écrans intermédiaires (PC portables / Écrans moyens) */
+@media (max-width: 1420px) {
+  .sidebar {
+    width: 200px;
+  }
+}
+
+/* 2. Tablettes (Mode compact : Icônes uniquement) */
+@media (max-width: 992px) {
+  .sidebar {
+    width: 70px; /* Réduction de la barre */
+    align-items: center;
+  }
+
+  /* On cache la description du logo, les textes des liens et le texte déconnexion */
+  .logo-desc,
+  .logo-title,
+  .logo-sub,
+  .log-out .logout {
+    display: none;
+  }
+
+  .sidebar-header {
+    justify-content: center;
+    padding: 10px 0;
+  }
+
+  .sidebar_items {
+    align-items: center;
+  }
+
+  .sidebar-item {
+    justify-content: center;
+    margin: 0 4px;
+    padding: 14px 0;
+    width: 100%;
+    position: relative;
+  }
+
+  .sidebar-item .item_label {
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: var(--bg-sidebar);
+    padding: 6px 10px;
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-md);
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+    z-index: 10000; /* S'assure que le texte est au-dessus des autres éléments */
+    font-size: var(--text-sm);
+  }
+
+  .sidebar-item:hover .item_label {
+    opacity: 1;
+  }
+
+  /* Centre l'icône de déconnexion et lui donne une forme carrée/circulaire sympa */
+  .log-out {
+    width: 45px;
+    height: 45px;
+    padding: 0;
+    justify-content: center;
+    border-radius: 50%; /* Optionnel : rend le bouton déconnexion rond en mode compact */
+  }
+  
+  .logout-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+  }
+}
+
+/* 3. Mobiles (Masquage complet ou transformation) */
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 240px; /* On reprend une taille normale pour le panneau */
+    border-radius: 0;
+    z-index: 999;
+    
+    /* Cache la barre hors de l'écran par défaut */
+    transform: translateX(-105%); 
+    transition: transform 0.3s ease-in-out;
+  }
+
+  /* À appliquer via l'état (state) de ton composant parent si tu gères un bouton Burger */
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  /* On réaffiche tout le texte à l'intérieur du panneau mobile */
+  .logo-desc,
+  .item_label,
+  .log-out .logout {
+    display: flex;
+  }
+
+  .sidebar-header {
+    justify-content: flex-start;
+    padding: 10px 14px;
+  }
+
+  .sidebar-item {
+    justify-content: flex-start;
+    padding: 14px 14px;
+  }
+
+  .log-out {
+    width: 90%;
+    height: auto;
+    padding: 8px 0;
+    border-radius: 5px;
+  }
+}

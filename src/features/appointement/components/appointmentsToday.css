@@ -593,6 +593,11 @@
 }
 
 /* Responsive */
+@media (max-width: 1420px) {
+  .appointments-card{
+    width: 100%;
+  }
+}
 @media (max-width: 768px) {
   .appointments-header {
     flex-direction: column;

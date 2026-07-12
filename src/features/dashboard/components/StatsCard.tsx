@@ -121,7 +121,6 @@ const StatsCard: React.FC<StatsCardProps> = ({
                   className="stat-title"
                   style={{
                     color: 'var(--text-secondary)',
-                    fontSize: 'var(--text-sm)',
                     fontWeight: 500
                   }}
                 >

@@ -16,3 +16,25 @@
 .app-main .css-r06cbe-MuiSkeleton-root {
   background-color: var(--skeleton-bg);
 }
+
+/* 1. Écrans intermédiaires (PC portables / Écrans moyens) */
+@media (max-width: 1420px) {
+  .app-main {
+    margin-left: 210px; /* Aligné sur la sidebar qui passe à 200px */
+  }
+}
+
+/* 2. Tablettes (Mode compact : La sidebar ne fait plus que 70px) */
+@media (max-width: 992px) {
+  .app-main {
+    margin-left: 70px; /* Aligné sur la mini-sidebar de 70px */
+  }
+}
+
+/* 3. Mobiles (La sidebar passe en mode "overlay" / masquée) */
+@media (max-width: 768px) {
+  .app-main {
+    margin-left: 0; /* Le contenu principal prend tout l'écran */
+    padding: 0 15px; /* On réduit un poil le padding sur mobile */
+  }
+}
