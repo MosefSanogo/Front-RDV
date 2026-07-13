@@ -27,7 +27,7 @@
 /* 2. Tablettes (Mode compact : La sidebar ne fait plus que 70px) */
 @media (max-width: 992px) {
   .app-main {
-    margin-left: 70px; /* Aligné sur la mini-sidebar de 70px */
+    margin-left: 60px; /* Aligné sur la mini-sidebar de 70px */
   }
 }
 

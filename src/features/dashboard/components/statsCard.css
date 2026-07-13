@@ -1,16 +1,13 @@
-.stats-container {
-    width: 100%;
-}
+
 
 .stats-container .stats-grid {
     display: flex;
-    flex-wrap: wrap;
     gap: 1.5rem;
     justify-content: space-between;
 }
 
 .stats-container .stat-card {
-    padding: 1.5rem;
+    padding: 1rem;
     position: relative;
     overflow: hidden;
     display: flex;
@@ -31,8 +28,8 @@
 }
 
 .icon-container {
-    width: 56px;
-    height: 56px;
+    width: 50px;
+    height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -78,22 +75,44 @@
     height: 60px;
     transform: rotate(45deg);
 }
-
-@media (max-width: 1024px) {
-    .stats-container .stat-card {
-        padding: 1.25rem 1rem;
+@media (max-width: 1024px){
+    .stats-container .stat-card .stat-content .stat-title {
+        font-size: 12px;
     }
+    .stats-container .stat-card .stat-content .stat-value {
+        letter-spacing: 0.15px;
+        font-size: 12px;
+    }
+}
+@media (max-width: 1024px) {
     .stats-container .stat-card .icon-container  {
         width: 40px;
         height: 40px;
     }
-    .stats-container .stat-card .stat-content .stat-title {
-        letter-spacing: 0.15px;
+
+}
+@media (max-width:  948px){
+    .stats-container .stat-card {
+        padding: 0.85rem;
+       
+    }
+    .stats-container .stat-card .icon-container{
+        width: 30px;
+        height: 30px;
+    }
+    .stats-container .stat-card .icon-container .lucide{
+        width: 20px;
+        height: 20px;
     }
 }
-
+@media (max-width:  748px) {
+    .stats-container .stat-card .stat-content .stat-title {
+        font-size: 10px;
+    }
+}
 @media (max-width: 640px) {
     .stats-grid {
+        display: grid;
         grid-template-columns: 1fr;
         gap: 1rem;
     }

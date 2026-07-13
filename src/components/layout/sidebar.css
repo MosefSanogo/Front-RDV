@@ -67,7 +67,7 @@
     border-radius: var(--radius-sm);
     transition: var(--transition);
 
-    font-size: var(--text-lg);
+    font-size: var(--text-md);
   }
   
   .sidebar-item:hover {
@@ -121,6 +121,9 @@
 @media (max-width: 1420px) {
   .sidebar {
     width: 200px;
+  }
+  .sidebar-item{
+    padding: 10px 14px;
   }
 }
 

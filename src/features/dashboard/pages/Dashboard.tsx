@@ -141,9 +141,7 @@ function Dashboard() {
         availableSlots={dataTimeSlots === null ? 0 : dataTimeSlots}
       />
       <div className="dashboard-appointments-today">
-        <div className="appointments-placeholder">
           <AppointmentsToday appointments={reservations} />
-        </div>
         <div className="chart-container">
           <SimpleCharts data={barChartDataFormatted} />
         </div>

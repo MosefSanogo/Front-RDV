@@ -219,7 +219,6 @@
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
-  min-width: 800px;
 }
 
 .appointments-table thead {

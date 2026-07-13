@@ -1,8 +1,12 @@
 .dashboard {
-    height: 100%;
-    padding: 2rem;
-    padding-bottom: 3rem;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1.5rem;
     max-width: 1400px;
+    width: 90%;
+    height: 100%;
 }
 .dashboard-header {
     display: flex;
@@ -16,9 +20,6 @@
     align-items: center;
 }
 .appointments-placeholder{
-    display: flex;
-    align-items: center;
-    justify-content: center;
     height: 100%;
 }
 .dashboard .chart-container{
@@ -46,9 +47,8 @@
 }
 @media (max-width: 1420px) {
   .dashboard{
-    padding: 1.5rem;
+    padding: 1rem;
     padding-bottom: 2.5rem;
-    width: 100%;
   }
   .dashboard-header h1{
     font-size: 24px;
@@ -58,9 +58,10 @@
     }
 
   .appointments-placeholder{
-    width: 100%;
+    width: auto;
   }  
 }
+
 @media (max-width: 768px) {
   .dashboard-appointments-today {
     grid-template-columns: 1fr;

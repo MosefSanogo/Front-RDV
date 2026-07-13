@@ -1,8 +1,20 @@
-.css-1hgcujo-MuiPickersInputBase-root-MuiPickersOutlinedInput-root,
-.css-1fb7els-MuiPickersSectionList-root-MuiPickersInputBase-sectionsContainer-MuiPickersOutlinedInput-sectionsContainer
+.MuiStack-root{
+    width: 200px;
+    min-width: auto;
+}
+.MuiStack-root .css-1hgcujo-MuiPickersInputBase-root-MuiPickersOutlinedInput-root,
+.MuiStack-root .css-1fb7els-MuiPickersSectionList-root-MuiPickersInputBase-sectionsContainer-MuiPickersOutlinedInput-sectionsContainer
  {
     color: var(--text-primary);
+    font-size: var(--text-sm);
 }
-.css-10o2lyd-MuiStack-root>.MuiPickersTextField-root{
+.MuiStack-root .css-10o2lyd-MuiStack-root>.MuiPickersTextField-root{
     border: 1px solid var(--border-default);
+    width: 200px;
+    min-width: 0;
 }
+.MuiStack-root .css-1fb7els-MuiPickersSectionList-root-MuiPickersInputBase-sectionsContainer-MuiPickersOutlinedInput-sectionsContainer{
+    font-size: 10px;
+    padding: 10px ;
+}
+
