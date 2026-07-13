@@ -8,6 +8,7 @@
   margin-left: 220px;
   padding: 0 20px;
   height: 100%;
+  transition: margin-left 0.3s ease;
 }
 .app-main .css-1q505s5-MuiSkeleton-root,
 .app-main .css-1epbneo-MuiSkeleton-root,
@@ -15,6 +16,27 @@
 .app-main .css-1e8giav-MuiSkeleton-root,
 .app-main .css-r06cbe-MuiSkeleton-root {
   background-color: var(--skeleton-bg);
+}
+.btn-sidebar-open {
+  display: none;
+  position: fixed;
+  top: 28px;
+  left: 15px;
+  width: 25px;
+  height: 18px;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+
+.btn-sidebar-open span {
+  display: block;
+  height: 4px;
+  width: 100%;
+  background-color: var(--text-primary);
+  border-radius: 2px;
 }
 
 /* 1. Écrans intermédiaires (PC portables / Écrans moyens) */
@@ -36,5 +58,14 @@
   .app-main {
     margin-left: 0; /* Le contenu principal prend tout l'écran */
     padding: 0 15px; /* On réduit un poil le padding sur mobile */
+  }
+  .app-main.open {
+    margin-left: 60px; /* Quand la sidebar est ouverte, on laisse de la place */
+  }
+  .btn-sidebar-open {
+    display: flex;
+  }
+  .btn-sidebar-open.open {
+    left: 78px;
   }
 }

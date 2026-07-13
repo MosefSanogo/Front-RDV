@@ -246,12 +246,12 @@
 
 /* Responsive */
 @media (max-width: 768px) {
-    .appointments-table {
+    .appointments-table-container .appointments-table {
         min-width: 800px;
     }
 
-    .appointments-table th,
-    .appointments-table td {
+    .appointments-table-container .appointments-table th,
+    .appointments-table-container .appointments-table td {
         padding: 0.75rem 0.5rem;
     }
 }

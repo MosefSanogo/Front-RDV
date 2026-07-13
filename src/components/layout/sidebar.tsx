@@ -12,7 +12,7 @@ import {
 } from "react-icons/fi";
 import { NavLink } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
-function Sidebar({ style }: { style?: React.CSSProperties }) {
+function Sidebar({ style, open }: { style?: React.CSSProperties; open?: boolean }) {
   const { logout } = React.useContext(AuthContext);
   const items = [
     { label: "Dashboard", icon: <FiHome />, link: "/dashboard" },
@@ -27,7 +27,7 @@ function Sidebar({ style }: { style?: React.CSSProperties }) {
     logout();
   };
   return (
-    <div className="sidebar" style={style}>
+    <div className={`sidebar ${open ? "open" : ""}`} style={style}>
       <div className="sidebar-header">
         <div className="logo">
             <span>MS</span>

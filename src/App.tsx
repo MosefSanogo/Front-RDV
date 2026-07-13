@@ -32,6 +32,7 @@ function AppLayout() {
   const shouldHideSidebar: boolean = hideSidebarRoutes.includes(
     location.pathname,
   );
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isAuth, setIsAuth] = useState(!!localStorage.getItem("token"));
   const [user, setUser] = useState<Service | null>(() => {
     const storedUser = localStorage.getItem("service");
@@ -55,11 +56,16 @@ function AppLayout() {
       <div className="app">
         {!shouldHideSidebar && (
           <div className="app-sidebar">
-            <Sidebar />
+            <Sidebar open={isSidebarOpen} />
           </div>
         )}
+        <div className={`btn-sidebar-open ${isSidebarOpen ? "open" : ""}`} onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
         <div
-          className="app-main"
+          className={`app-main ${isSidebarOpen ? "open" : ""}`}
           style={shouldHideSidebar ? { marginLeft: "0" } : undefined}
         >
           <Routes>

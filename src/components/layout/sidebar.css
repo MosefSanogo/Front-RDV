@@ -203,7 +203,6 @@
     top: 0;
     left: 0;
     height: 100vh;
-    width: 240px; /* On reprend une taille normale pour le panneau */
     border-radius: 0;
     z-index: 999;
     
@@ -215,13 +214,7 @@
   /* À appliquer via l'état (state) de ton composant parent si tu gères un bouton Burger */
   .sidebar.open {
     transform: translateX(0);
-  }
-
-  /* On réaffiche tout le texte à l'intérieur du panneau mobile */
-  .logo-desc,
-  .item_label,
-  .log-out .logout {
-    display: flex;
+    width: 55px; /* Largeur normale quand ouverte */
   }
 
   .sidebar-header {

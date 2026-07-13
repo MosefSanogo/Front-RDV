@@ -66,4 +66,7 @@
   .dashboard-appointments-today {
     grid-template-columns: 1fr;
   }
+  .dashboard-header h1{
+    font-size: var(--text-lg);
+  }
 }

@@ -127,12 +127,11 @@ const StatsCard: React.FC<StatsCardProps> = ({
                   {stat.title}
                 </h3>
                 <p 
-                  className="stat-value"
+                  className="stat-dash-value"
                   style={{
                     color: 'var(--text-primary)',
-                    fontSize: 'var(--text-2xl)',
                     fontWeight: 600,
-                    margin: 0
+                    margin: 0,
                   }}
                 >
                   {stat.value.toLocaleString()}

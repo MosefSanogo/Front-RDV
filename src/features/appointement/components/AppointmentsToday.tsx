@@ -27,7 +27,7 @@ export default function AppointmentsToday({
       </div>
 
       <div className="appointments-table-wrapper">
-        <table className="appointments-table">
+        <table className="appointments-table appointments-table-wrapper">
           <thead>
             <tr>
               <th>Heure</th>
