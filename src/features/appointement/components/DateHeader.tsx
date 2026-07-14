@@ -54,7 +54,7 @@ const DateHeader: React.FC<DateHeaderProps> = ({ date, onDateChange }) => {
         <Calendar size={18} />
         <span className="date-text">{formatDate(date)}</span>
         {isToday(date) && (
-          <span className="today-badge">Aujourd'hui</span>
+          <span className="today-badge">Auj.</span>
         )}
       </div>
       
@@ -71,7 +71,7 @@ const DateHeader: React.FC<DateHeaderProps> = ({ date, onDateChange }) => {
           className="today-btn"
           onClick={goToToday}
         >
-          Aujourd'hui
+          Auj.
         </button>
       )}
     </div>

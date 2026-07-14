@@ -128,7 +128,7 @@ const AppointmentsPage: React.FC = () => {
     <div className="appointments-page print-area">
     
       {/* Header */}
-      <header className="page-header">
+      <header className="page-header-appointments">
         <div className="header-left">
           <h1 className="page-title">
             <Calendar size={24} />

@@ -44,7 +44,7 @@ const ServicesTable: React.FC<ServicesTableProps> = ({
     
     return (
       <div 
-        className="status-badge"
+        className="status-badge-service"
         style={{
           backgroundColor: bgColor,
           color: color,

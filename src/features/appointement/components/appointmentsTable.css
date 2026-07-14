@@ -149,7 +149,7 @@
     padding: 0.375rem 0.75rem;
     border-radius: var(--radius-md);
     border: 1px solid;
-    font-size: var(--text-xs);
+    font-size: 12px;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -245,10 +245,14 @@
 }
 
 /* Responsive */
-@media (max-width: 768px) {
-    .appointments-table-container .appointments-table {
-        min-width: 800px;
+@media (max-width: 840px) {
+    .appointments-table th,
+    .appointments-table td {
+        padding: 0.75rem;
+        font-size: 11px;
     }
+}
+@media (max-width: 768px) {
 
     .appointments-table-container .appointments-table th,
     .appointments-table-container .appointments-table td {

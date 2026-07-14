@@ -36,7 +36,7 @@
     padding: 0 1rem;
 }
 
-.date-text {
+.date-header .date-text {
     font-size: var(--text-md);
     font-weight: 600;
     color: var(--text-primary);
@@ -67,7 +67,54 @@
 .today-btn:hover {
     background: var(--btn-primary-hover);
 }
+@media (max-width: 1442px) {
+    .date-header {
+        width: 70%;
+    }
+}
+@media (max-width: 1320px){
+    .date-header {
+        width: 80%;
+    }
+    .date-header .date-text {
+        font-size: 12px;
+    }
+}
 
+@media (max-width: 1200px){
+    .date-header {
+        width: 85%;
+    }
+    .date-header .date-text {
+        font-size: 11px;
+    }
+}
+@media (max-width: 1160px){
+    .date-header {
+        width: 90%;
+        gap: 0.5rem;
+        padding: 0.5rem 0.75rem;
+    }
+    .date-header .today-btn {
+        font-size: 11px;
+        padding: 0.4rem 0.8rem;
+    }
+    .date-header .date-text {
+        font-size: 10px;
+    }
+    .date-display {
+        gap: 0.5rem;
+        padding: 0 0.75rem;
+    }
+}
+@media (max-width: 1024px) {
+    .date-header {
+        width: 100%;
+    }
+    .date-display{
+        width: 100%;
+    }
+}
 @media (max-width: 640px) {
     .date-header {
         flex-wrap: wrap;

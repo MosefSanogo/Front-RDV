@@ -9,10 +9,10 @@
     height: 100%;
 }
 
-.page-header {
+.page-header-appointments {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     padding: 1rem;
     border-bottom: 1px solid var(--border-default);
     background: var(--bg-card);
@@ -149,12 +149,19 @@
 
 }
 
+@media (max-width: 1024px) {
+    .page-header-appointments {
+        flex-direction: column;
+        gap: 1rem;
+    }
+}    
+
 @media (max-width: 768px) {
     .appointments-page {
         padding: 1rem;
     }
 
-    .page-header {
+    .page-header-appointments {
         flex-direction: column;
         align-items: stretch;
         gap: 1rem;
@@ -176,5 +183,8 @@
 
     .filter-select {
         width: 100%;
+    }
+    .header-left h1{
+        font-size: var(--text-lg);
     }
 }

@@ -52,17 +52,17 @@ const ServiceStats: React.FC<ServiceStatsProps> = ({
       {stats.map(stat => {
         const Icon = stat.icon;
         return (
-          <div key={stat.id} className="stat-card">
+          <div key={stat.id} className="stat-card-service">
             <div className="stat-header">
-              <div className="stat-icon" style={{ color: stat.color }}>
+              <div className="stat-icon-service" style={{ color: stat.color }}>
                 <Icon size={20} />
               </div>
               <div className="stat-numbers">
-                <div className="stat-value">{stat.value}</div>
-                <div className="stat-label">{stat.label}</div>
+                <div className="stat-value-service">{stat.value}</div>
+                <div className="stat-label-service">{stat.label}</div>
               </div>
             </div>
-            <div className="stat-description">
+            <div className="stat-description-service">
               {stat.description}
             </div>
             <div className="stat-progress">
