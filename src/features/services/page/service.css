@@ -1,7 +1,6 @@
 .services-page {
-    max-width: 1400px;
-    width: 90%;
-    padding: 1.5rem;
+    width: 95%;
+    padding: 1rem;
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
@@ -150,14 +149,13 @@
   
     .services-page{
         padding: 1rem;
-        width: 100%;
-        max-width: 90%;
     }
 }
 
 @media (max-width: 768px) {
     .services-page {
         padding: 1rem;
+        width: 90%;
     }
 
     .filters-section {

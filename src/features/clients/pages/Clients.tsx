@@ -213,20 +213,6 @@ const Clients: React.FC = () => {
             <Users size={28} />
             Clients
           </h1>
-          <div className="header-stats">
-            <div className="stat-badge">
-              <span className="stat-value">{totalClients}</span>
-              <span className="stat-label">Total</span>
-            </div>
-            <div className="stat-badge active">
-              <span className="stat-value">{activeClients}</span>
-              <span className="stat-label">Actifs</span>
-            </div>
-            <div className="stat-badge new">
-              <span className="stat-value">{newClients}</span>
-              <span className="stat-label">Nouveaux</span>
-            </div>
-          </div>
         </div>
 
         <div className="header-actions">

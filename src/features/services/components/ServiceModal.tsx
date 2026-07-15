@@ -121,7 +121,7 @@ const ServiceModal: React.FC<ServiceModalProps> = ({
             </button>
             <button className="btn primary" onClick={() => handleSave()} disabled= {subServices.length === 0 && activeTab === 'subservices'}>
               <Save size={16} />
-              {activeTab === 'info' ? 'Enregistrer les modifications' : 'Enregistrer le sous-service'}
+              {activeTab === 'info' ? 'Enregistrer les modifications' : 'Enregistrer '}
             </button>
           </div>
         </div>
