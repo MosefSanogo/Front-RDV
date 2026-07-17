@@ -32,7 +32,7 @@ const ClientFilters: React.FC<ClientFiltersProps> = ({
           </div>
           <input
             type="text"
-            placeholder="Rechercher un client (nom, téléphone, email)..."
+            placeholder="Rechercher un client"
             value={searchTerm}
             onChange={(e) => onSearchChange(e.target.value)}
             className="search-input"

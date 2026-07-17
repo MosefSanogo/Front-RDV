@@ -9,7 +9,7 @@ import {
   Loader2,
 } from "lucide-react";
 import DatePickerValue from "../../../components/ui/DatePicker";
-
+import "/src/features/dashboard/components/slotAvailable.css";
 export interface TimeSlot {
   id: number;
   time: string; // Format: "08:00", "09:00", etc.
@@ -119,11 +119,6 @@ const SlotsCard: React.FC<TimeSlotsCardProps> = ({
             />
           </div>
           <div className="summary-stats">
-            <div className="stat-item">
-              <Clock size={16} />
-              <span className="stat-value">{timeSlots.length}</span>
-              <span className="stat-label">Heures</span>
-            </div>
             <div className="stat-item">
               <Users size={16} />
               <span className="stat-value">

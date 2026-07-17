@@ -210,18 +210,18 @@ const Clients: React.FC = () => {
       <header className="page-header">
         <div className="header-left">
           <h1 className="page-title">
-            <Users size={28} />
+            <Users size={24} />
             Clients
           </h1>
         </div>
 
         <div className="header-actions">
           <button className="btn secondary" onClick={handleExport}>
-            <Download size={18} />
+            <Download size={14} />
             Exporter
           </button>
           <button className="btn primary" onClick={handleAddClient}>
-            <Plus size={18} />
+            <Plus size={14} />
             Ajouter un client
           </button>
         </div>

@@ -1,6 +1,6 @@
 .client-stats {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    display: flex;
+    flex-wrap: wrap;
     gap: 1rem;
 }
 
@@ -13,6 +13,7 @@
     border: 1px solid var(--border-default);
     border-radius: var(--radius-lg);
     transition: var(--transition);
+    flex: 1 1 calc(25% - 1rem);
 }
 
 .stat-card:hover {
@@ -25,8 +26,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 56px;
-    height: 56px;
+    width: 50px;
+    height: 50px;
     border-radius: var(--radius-md);
     background: rgba(var(--primary-rgb, 37, 99, 235), 0.1);
     flex-shrink: 0;
@@ -37,14 +38,14 @@
 }
 
 .stat-value {
-    font-size: var(--text-2xl);
+    font-size: var(--text-xl);
     font-weight: 800;
     line-height: 1;
     margin-bottom: 0.25rem;
 }
 
 .stat-label {
-    font-size: var(--text-sm);
+    font-size: 11px;
     font-weight: 600;
     color: var(--text-primary);
     text-transform: uppercase;
@@ -53,7 +54,7 @@
 }
 
 .stat-description {
-    font-size: var(--text-xs);
+    font-size: 10px;
     color: var(--text-disabled);
     line-height: 1.4;
 }

@@ -1,5 +1,7 @@
 .creneaux-page {
-    padding: 1rem 4rem 2rem 4rem;
+    padding: 1rem;
+    width: 95%;
+    margin: 0 auto;
 }
 .pagination {
     display: flex;
@@ -55,6 +57,12 @@
 @media (max-width: 1200px) {
     .creneaux-page h1{
         font-size: var(--text-xl);
+    }
+    .pagination select{
+        font-size: var(--text-sm);
+    }
+    .pagination-pages button{
+        font-size: var(--text-sm);
     }
 }
 

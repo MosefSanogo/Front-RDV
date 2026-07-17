@@ -240,15 +240,15 @@ const ServicesPage: React.FC = () => {
 
         <div className="header-actions">
           <button className="btn secondary">
-            <Download size={18} />
+            <Download size={14} />
             Exporter
           </button>
           <button className="btn secondary">
-            <Upload size={18} />
+            <Upload size={14} />
             Importer
           </button>
           <button className="btn primary" onClick={handleAddService}>
-            <Plus size={18} />
+            <Plus size={14} />
             Ajouter Sous service
           </button>
         </div>

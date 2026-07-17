@@ -4,8 +4,7 @@
     flex-direction: column;
     gap: 1.5rem;
     padding: 1.5rem;
-    max-width: 1400px;
-    width: 90%;
+    width: 95%;
     height: 100%;
 }
 
@@ -41,13 +40,13 @@
     gap: 0.75rem;
 }
 
-.btn {
+.appointments-page .btn {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.625rem 1.25rem;
+    padding: 0.5rem 1rem;
     border-radius: var(--radius-md);
-    font-size: var(--text-sm);
+    font-size: var(--text-xs);
     font-weight: 500;
     cursor: pointer;
     transition: var(--transition);

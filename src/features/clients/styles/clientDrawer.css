@@ -62,14 +62,14 @@
      display: flex;
      align-items: center;
      gap: 0.75rem;
-     font-size: var(--text-xl);
+     font-size: var(--text-lg);
      font-weight: 700;
      color: var(--text-primary);
      margin: 0;
  }
 
  .client-id {
-     font-size: var(--text-xs);
+     font-size: 11px;
      color: var(--text-disabled);
  }
 
@@ -148,16 +148,16 @@
  }
 
  .profile-avatar {
-     width: 64px;
-     height: 64px;
-     background: linear-gradient(135deg, var(--primary) 0%, var(--info) 100%);
+     width: 40px;
+     height: 40px;
+     background: linear-gradient(135deg, var(--btn-primary-bg) 0%, var(--info) 100%);
      color: white;
      border-radius: var(--radius-lg);
      display: flex;
      align-items: center;
      justify-content: center;
      font-weight: 600;
-     font-size: var(--text-xl);
+     font-size: var(--text-md);
      flex-shrink: 0;
  }
 
@@ -169,7 +169,7 @@
  }
 
  .profile-name {
-     font-size: var(--text-2xl);
+     font-size: var(--text-lg);
      font-weight: 700;
      color: var(--text-primary);
      margin: 0;
@@ -202,7 +202,7 @@
      border: 1px solid var(--border-default);
      border-radius: var(--radius-md);
      color: var(--text-primary);
-     font-size: var(--text-md);
+     font-size: var(--text-sm);
      outline: none;
      transition: var(--transition);
  }
@@ -213,7 +213,7 @@
  }
 
  .name-input {
-     font-size: var(--text-2xl);
+     font-size: var(--text-lg);
      font-weight: 700;
      width: 100%;
  }
@@ -229,7 +229,7 @@
      display: flex;
      align-items: center;
      gap: 0.5rem;
-     font-size: var(--text-md);
+     font-size: var(--text-sm);
      font-weight: 600;
      color: var(--text-primary);
      margin: 0;
@@ -266,12 +266,12 @@
  }
 
  .contact-label {
-     font-size: var(--text-xs);
+     font-size: 11px;
      color: var(--text-secondary);
  }
 
  .contact-value {
-     font-size: var(--text-md);
+     font-size: var(--text-sm);
      color: var(--text-primary);
      font-weight: 500;
  }
@@ -317,7 +317,7 @@
  }
 
  .stat-label {
-     font-size: var(--text-xs);
+     font-size: 11px;
      color: var(--text-secondary);
  }
 
@@ -435,7 +435,7 @@
  }
 
  .appointment-subservice {
-     font-size: var(--text-xs);
+     font-size: 11px;
      color: var(--text-secondary);
  }
 
@@ -516,6 +516,7 @@
      .profile-section {
          flex-direction: column;
          text-align: center;
+         margin: 0;
      }
 
      .profile-meta {

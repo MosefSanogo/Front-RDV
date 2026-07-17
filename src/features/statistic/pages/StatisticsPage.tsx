@@ -319,7 +319,7 @@ const StatisticsPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Alertes */}
+      {/* Alertes
       <div className="alerts-section">
         <div className="alert-card warning">
           <AlertCircle size={18} />
@@ -328,7 +328,6 @@ const StatisticsPage: React.FC = () => {
             <span>10h00 - 12h00 : 45% des RDV de la journée</span>
           </div>
         </div>
-
         <div className="alert-card success">
           <Activity size={18} />
           <div className="alert-content">
@@ -337,8 +336,9 @@ const StatisticsPage: React.FC = () => {
           </div>
         </div>
       </div>
+       */}
 
-      {/* Tableau détaillé */}
+      {/* Tableau détaillé 
       <div className="details-section">
         <div className="section-header">
           <h2>
@@ -357,6 +357,7 @@ const StatisticsPage: React.FC = () => {
 
         <ServiceDetailsTable services={serviceStats} />
       </div>
+      */}
     </div>
   );
 };

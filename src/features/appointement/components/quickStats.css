@@ -1,7 +1,8 @@
 .quick-stats {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
+  width: 100%;
 }
 
 .quick-stats .stat-card {
@@ -13,6 +14,7 @@
   border-radius: var(--radius-md);
   border: 1px solid var(--border-default);
   transition: var(--transition);
+  flex: 1 1 calc(25%-0.5rem);
 }
 
 .quick-stats .stat-card:hover {

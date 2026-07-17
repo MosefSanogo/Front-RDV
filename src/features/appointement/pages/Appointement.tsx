@@ -138,11 +138,11 @@ const AppointmentsPage: React.FC = () => {
         </div>
         <div className="header-actions">
           <button className="btn secondary">
-            <Download size={18} />
+            <Download size={14} />
             Exporter
           </button>
           <button className="btn secondary" onClick={handlePrint}>
-            <Printer size={18} />
+            <Printer size={14} />
             Imprimer
           </button>
         </div>
