@@ -43,8 +43,8 @@
     color: var(--text-secondary);
 }
 
-.summary-value {
-    font-size: var(--text-xl);
+.business-hours .summary-value {
+    font-size: var(--text-lg);
     font-weight: 700;
     color: var(--primary);
 }
@@ -60,7 +60,7 @@
 }
 
 .copy-label {
-    font-size: var(--text-sm);
+    font-size: var(--text-xs);
     color: var(--text-secondary);
 }
 
@@ -70,7 +70,7 @@
     border: 1px solid var(--border-default);
     border-radius: var(--radius-md);
     color: var(--text-primary);
-    font-size: var(--text-sm);
+    font-size: var(--text-xs);
     outline: none;
     cursor: pointer;
 }
@@ -236,7 +236,46 @@ input:checked+.toggle-slider:before {
 .info-note strong {
     color: var(--text-primary);
 }
-
+@media (max-width: 1264px) {
+    .business-hours .summary-value {
+        font-size: var(--text-md);
+    }
+    .copy-btn {
+        font-size: 11px;
+        padding: 0.5rem;
+    }
+    .copy-select {
+        font-size: 11px;
+        padding: 0.5rem;
+    }
+    .copy-label {
+        font-size: 11px;
+    }
+    .business-hours .header-cell {
+        font-size: 12px;
+    }
+    .business-hours .row-cell {
+        font-size: 11px;
+    }
+    .business-hours .toggle-switch {
+        width: 36px;
+        height: 20px;
+    }
+    .business-hours .toggle-slider:before {
+        height: 14px;
+        width: 14px;
+        left: 3px;
+        bottom: 3px;
+    }
+    .business-hours .toggle-slider {
+        border-radius: 20px;
+    }
+    .business-hours .time-input, 
+    .business-hours .capacity-input {
+        font-size: 11px;
+        padding: 0.25rem;
+    }   
+}
 @media (max-width: 768px) {
     .hours-summary {
         flex-direction: column;
