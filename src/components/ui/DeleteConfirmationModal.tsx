@@ -5,11 +5,11 @@ import './DeleteConfirmationModal.css';
 interface DeleteConfirmationModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onConfirm: (type: string) => void;
+  onConfirm: (type: string | undefined) => void;
   title?: string;
   message?: string;
   isLoading?: boolean;
-  type: 'service' | 'sous-service' | 'employee' | 'holiday' | 'appointment' | 'pause';
+  type?: 'service' | 'sous-service' | 'employee' | 'holiday' | 'appointment' | 'pause';
 }
 
 const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({

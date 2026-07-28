@@ -48,7 +48,7 @@ const RegisterPage: React.FC = () => {
     >,
   ) => {
     const { name, value } = e.target;
-    const cleanedValue = sanitizeInput(value, name === "email" ? "email" : "text");
+    const cleanedValue = name === "email" ? sanitizeInput(value, name === "email" ? "email" : "") : sanitizeInput(value, "text");
     setFormData((prev) => ({
       ...prev,
       [name]: cleanedValue.value,

@@ -113,7 +113,7 @@ export const sanitizeInput = (value: string, type = 'text', options: { maxLength
     return { value: '', error: required ? 'Ce champ est requis' : null, isValid: !required };
   }
 
-  let sanitized = String(value).trim();
+  let sanitized = String(value);
 
   // Champ requis vide
   if (required && sanitized === '') {

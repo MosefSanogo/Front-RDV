@@ -23,7 +23,7 @@ const RulesSettings: React.FC<RulesSettingsProps> = ({
   const [rules, setRules] = useState<Rule>({
     minDelay: data?.minDelay || 2,
     maxAdvance: data?.maxAdvance || 30,
-    maxPerDay: data?.maxPerDay || 3,
+    maxPerDay: data?.maxPerDay || 1,
     cancellationDelay: data?.cancellationDelay || 24,
     allowWeekends: data?.allowWeekends || false,
     autoConfirm: data?.autoConfirm || true,

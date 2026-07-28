@@ -165,7 +165,7 @@ const ServicesPage: React.FC = () => {
       axios.post(`${import.meta.env.VITE_API_URL}/service/addSousService`,
         {
           data: serviceData.map(item=>({nom: item.nom})),
-          serviceId: 1
+          serviceId: serviceId
         }
       ).then(response=>{
         toast.success(response.data.message)
@@ -386,6 +386,7 @@ const ServicesPage: React.FC = () => {
         onClose={() => setShowDeleteModal(false)}
         onConfirm={handleDelete}
         title="Supprimer ce service ?"
+  
       />
     </div>
   );

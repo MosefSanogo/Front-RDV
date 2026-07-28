@@ -3,7 +3,6 @@ import {
   Settings,
   Building2,
   Clock,
-  Users,
   Calendar,
   CalendarX,
   Shield,
@@ -84,6 +83,7 @@ const SettingsPage: React.FC = () => {
   const handleSavePauses = useCallback(
     (data: Pauses) => {
       setIsSaving(true);
+      console.log(data)
       axios
         .post(`${import.meta.env.VITE_API_URL}/pauses/register`, {
           service_id: serviceId,
@@ -184,8 +184,9 @@ const SettingsPage: React.FC = () => {
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_API_URL}/pauses/getAllPauses/${serviceId}`)
+      .get(`${import.meta.env.VITE_API_URL}/pauses/getAllPausesByService/${serviceId}`)
       .then((response) => {
+        console.log(response.data)
         setPauses(response.data);
       })
       .catch((error) => {
@@ -235,7 +236,7 @@ const SettingsPage: React.FC = () => {
     setDeletingId(id);
   };
 
-  const handleDelete = (type: string) => {
+  const handleDelete = (type: string | undefined) => {
     console.log("avant :" + pauses);
     const url =
       type === "holiday"

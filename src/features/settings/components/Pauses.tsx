@@ -38,6 +38,7 @@ const PausesSettings: React.FC<HolidaysSettingsProps> = ({
         id: Date.now().toString(),
         ...formData,
       };
+      console.log(newHoliday)
       onSave(newHoliday);
     
     setFormData({ heure_debut: "", heure_fin: "", sous_service_id: "" });
@@ -141,7 +142,7 @@ const PausesSettings: React.FC<HolidaysSettingsProps> = ({
                 }
                 className="form-select"
               > 
-                <option disabled>Selectionnez un sous service</option>
+                <option >Selectionnez un sous service</option>
                 {sousServices.map((item,i)=>(<option value={item.id} key={i}>{item.nom}</option>))}
               </select>
             </div>
